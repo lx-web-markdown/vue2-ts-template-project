@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$listeners 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .child-component {
+      border: 2px dashed #1890ff;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 6px;
+      background: #f0f7ff;
+    }
+
+    .event-log {
+      background: #262626;
+      color: #52c41a;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      margin: 10px 0;
+      min-height: 100px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="listeners-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$listeners</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$listeners</b> 包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。<br>
+        它可以通过 v-on="$listeners" 传入内部组件——在创建更高层次的组件时非常有用。<br>
+        这个属性在 Vue 3 中已被移除，被新的 v-bind="$attrs" 所替代（包含了 class、style、v-on 监听器等）。
+      </p>
+      <pre><code>// 访问实例的事件监听器对象
+console.log(vm.$listeners);</code></pre>
+    </div>
+
+    <div style="height: 30px; margin-bottom: 30px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：基础事件传递</h3>
+    <div class="data-demo">
+      <base-input v-on:focus="onFocus" v-on:input="onInput" v-on:blur="onBlur">
+      </base-input>
+      <div class="event-log">
+        <div v-for="(log, index) in eventLogs" :key="index">{{ log }}</div>
+      </div>
+    </div>
+    <pre><code v-pre>// 父组件模板
+< base-input
+  v-on:focus="onFocus"
+  v-on:input="onInput"
+  v-on:blur="onBlur">
+< /base-input>
+
+// 子组件定义
+Vue.component('base-input', {
+  template: `
+    < input v-on="$listeners">
+  `
+})</code></pre>
+
+    <div style="height: 30px; margin-bottom: 30px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：查看 $listeners 内容</h3>
+    <div class="tip">
+      <button @click="showListeners">打印 this.$listeners</button>
+    </div>
+    <pre><code>// 打印 $listeners 对象内容
+console.log(this.$listeners);
+// 输出所有注册的事件监听器</code></pre>
+
+    <div style="height: 30px; margin-bottom: 30px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$listeners</code> 对象包含了所有父作用域的事件监听器。<br>
+        - 不包含 <code>.native</code> 修饰符的事件。<br>
+        - 可以通过 <code>v-on="$listeners"</code> 一次性绑定所有事件。<br>
+        - 常用于创建高阶组件和组件事件透传。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 定义基础输入框组件
+    Vue.component('base-input', {
+      template: `
+        <div class="child-component">
+          <p>子组件：通过 v-on="$listeners" 传递所有事件</p>
+          <input 
+            v-on="$listeners"
+            placeholder="请输入内容..."
+          >
+          <button @click="checkListeners">查看当前组件的 $listeners</button>
+        </div>
+      `,
+      methods: {
+        checkListeners() {
+          console.log('子组件的 $listeners:', this.$listeners);
+        }
+      }
+    });
+
+    var vm = new Vue({
+      el: '#listeners-demo',
+      data: {
+        eventLogs: []
+      },
+      methods: {
+        onFocus(e) {
+          this.eventLogs.unshift(`[${new Date().toLocaleTimeString()}] Focus 事件触发`);
+        },
+        onInput(e) {
+          this.eventLogs.unshift(`[${new Date().toLocaleTimeString()}] Input 事件触发：${e.target.value}`);
+        },
+        onBlur(e) {
+          this.eventLogs.unshift(`[${new Date().toLocaleTimeString()}] Blur 事件触发`);
+        },
+        showListeners() {
+          console.log('父组件注册的事件监听器：', this.$listeners);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

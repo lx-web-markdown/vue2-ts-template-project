@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$attrs 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .attrs-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .attrs-box {
+      padding: 10px 20px;
+      background: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #d48806;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="attrs-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$attrs</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$attrs</b> 包含了父作用域中 (不包括 <code>class</code> 和 <code>style</code>) 传递给子组件、且未被子组件 <code>props</code> 或
+        <code>emits</code> 所声明的属性。<br>
+        常用于组件库开发，配合 <code>v-bind="$attrs"</code> 实现属性透传。<br>
+        <a href="https://v2.cn.vuejs.org/v2/api/#vm-attrs" target="_blank">官方文档</a>
+      </p>
+      <pre><code>// 访问未被 props 接收的属性
+console.log(this.$attrs);</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：父组件向子组件传递属性</h3>
+    <div class="attrs-demo">
+      <child-comp id="my-child" custom-attr="自定义属性" title="标题" :age="20" :info="{ hobby: '篮球' }"></child-comp>
+    </div>
+    <pre><code v-pre>// 父组件模板
+<child-comp id="my-child" custom-attr="自定义属性" title="标题" :age="20" :info="{ hobby: '篮球' }"></child-comp>
+
+// 子组件 props 只声明了 age
+props: ['age'],
+// 访问 $attrs
+console.log(this.$attrs); // { id: "my-child", custom-attr: "自定义属性", title: "标题", info: { hobby: "篮球" } }
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：在子组件中使用 v-bind="$attrs" 透传属性</h3>
+    <div class="tip">
+      <child-bind-comp id="bind-child" data-x="123" label="标签"></child-bind-comp>
+    </div>
+    <pre><code v-pre>// 子组件模板
+< button v-bind="$attrs">按钮< /button>
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$attrs</code> 只读，包含未被 props 接收的属性。<br>
+        - 常用于高阶组件、表单组件等场景，实现属性自动透传。<br>
+        - 可结合 <code>inheritAttrs: false</code> 精细控制属性分发。<br>
+        - <code>class</code> 和 <code>style</code> 不包含在 $attrs 中。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 子组件1：只声明了 age
+    Vue.component('child-comp', {
+      props: ['age'],
+      template: `
+        <div>
+          <div class="attrs-box">子组件 child-comp</div>
+          <div class="attrs-box">props.age: {{ age }}</div>
+          <div class="attrs-box">this.$attrs: {{ $attrs }}</div>
+          <button @click="printAttrs">打印 this.$attrs</button>
+        </div>
+      `,
+      mounted() {
+        // 控制台打印 $attrs
+        console.log('child-comp this.$attrs:', this.$attrs);
+      },
+      methods: {
+        printAttrs() {
+          alert(JSON.stringify(this.$attrs, null, 2));
+        }
+      }
+    });
+
+    // 子组件2：演示 v-bind="$attrs" 透传
+    Vue.component('child-bind-comp', {
+      inheritAttrs: false, // 推荐加上，防止自动挂载到根元素
+      template: `
+        <div>
+          <div class="attrs-box">子组件 child-bind-comp</div>
+          <button v-bind="$attrs" @click="printAttrs">按钮（属性透传）</button>
+        </div>
+      `,
+      methods: {
+        printAttrs() {
+          alert(JSON.stringify(this.$attrs, null, 2));
+        }
+      }
+    });
+
+    new Vue({
+      el: '#attrs-demo'
+    });
+  </script>
+</body>
+
+</html>

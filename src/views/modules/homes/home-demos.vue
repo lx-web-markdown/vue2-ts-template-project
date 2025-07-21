@@ -228,6 +228,7 @@ export default Vue.extend({
     font-size: 0.9rem;
     color: #2c3e50;
     font-weight: 500;
+    text-align: left;
   }
 
   .demo-icon {

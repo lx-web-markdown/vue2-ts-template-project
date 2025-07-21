@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$scopedSlots 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .scoped-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .slot-box {
+      padding: 10px 20px;
+      background: #e6f7ff;
+      border: 1px solid #91d5ff;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #096dd9;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="scoped-slots-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$scopedSlots</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$scopedSlots</b> 是一个对象，包含了所有在父组件中定义的作用域插槽（scoped slot）函数。<br>
+        你可以通过 <code>this.$scopedSlots</code> 在子组件内部访问这些插槽，并以编程方式渲染插槽内容。<br>
+        主要用于高级用法，比如手动渲染插槽内容。
+      </p>
+      <pre><code>// 访问作用域插槽
+console.log(this.$scopedSlots);
+// 调用插槽函数，传递 slot props
+const vnode = this.$scopedSlots.default({ msg: 'Hello from child!' });</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：父组件传递作用域插槽</h3>
+    <div class="scoped-demo">
+      <scoped-child>
+        <template slot-scope="props">
+          <div class="slot-box">
+            父插槽内容，收到子组件数据：<b>{{ props.msg }}</b>
+          </div>
+        </template>
+      </scoped-child>
+    </div>
+    <pre><code v-pre>&lt;scoped-child&gt;
+  &lt;template slot-scope="props"&gt;
+    &lt;div&gt;父插槽内容，收到子组件数据：&#123;&#123; props.msg &#125;&#125;&lt;/div&gt;
+  &lt;/template&gt;
+&lt;/scoped-child&gt;
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：在子组件中访问和调用 <code>this.$scopedSlots</code></h3>
+    <div class="tip">
+      <button @click="printScopedSlots">打印 this.$scopedSlots</button>
+      <button @click="callScopedSlot">手动调用 default 插槽</button>
+    </div>
+    <pre><code>// 在子组件内部
+console.log(this.$scopedSlots);
+const vnode = this.$scopedSlots.default({ msg: '手动调用插槽' });
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$scopedSlots</code> 只包含作用域插槽（scoped slot），不包含普通插槽。<br>
+        - 你可以通过 <code>this.$scopedSlots[slotName]</code> 访问指定插槽函数。<br>
+        - 插槽函数接收一个 props 对象，返回 VNode 数组。<br>
+        - 主要用于 render 函数或高级自定义组件开发。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 子组件，演示如何访问 this.$scopedSlots
+    Vue.component('scoped-child', {
+      template: `
+        <div>
+          <div style="margin-bottom: 10px;">
+            <button @click="emitToParent">子组件：触发作用域插槽</button>
+          </div>
+          <!-- 渲染 default 作用域插槽，传递 msg -->
+          <slot :msg="childMsg"></slot>
+        </div>
+      `,
+      data() {
+        return {
+          childMsg: 'Hello from 子组件'
+        }
+      },
+      methods: {
+        emitToParent() {
+          // 手动调用 default 插槽函数
+          if (this.$scopedSlots.default) {
+            const vnodeArr = this.$scopedSlots.default({ msg: '手动触发插槽内容' });
+            // 打印 vnodeArr
+            console.log('手动调用 this.$scopedSlots.default 返回的 VNode:', vnodeArr);
+            // 这里只是演示，实际渲染需在 render 函数中
+            alert('已在控制台打印 VNode');
+          } else {
+            alert('没有 default 作用域插槽');
+          }
+        }
+      },
+      mounted() {
+        // 打印 $scopedSlots
+        console.log('scoped-child this.$scopedSlots:', this.$scopedSlots);
+      }
+    });
+
+    new Vue({
+      el: '#scoped-slots-demo',
+      methods: {
+        printScopedSlots() {
+          // 获取子组件实例
+          const child = this.$children.find(c => c.$options._componentTag === 'scoped-child');
+          if (child) {
+            console.log('子组件 this.$scopedSlots:', child.$scopedSlots);
+          } else {
+            console.log('未找到子组件');
+          }
+        },
+        callScopedSlot() {
+          const child = this.$children.find(c => c.$options._componentTag === 'scoped-child');
+          if (child && child.$scopedSlots.default) {
+            const vnodeArr = child.$scopedSlots.default({ msg: '外部手动调用插槽' });
+            console.log('外部手动调用插槽返回的 VNode:', vnodeArr);
+            alert('已在控制台打印 VNode');
+          } else {
+            alert('没有 default 作用域插槽');
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

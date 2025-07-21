@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$options 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .options-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .options-box {
+      padding: 10px 20px;
+      background: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #d48806;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="options-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$options</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$options</b> 是 Vue 实例的一个属性，包含实例初始化时传递的所有选项对象。<br>
+        你可以通过 <code>this.$options</code> 访问到 data、methods、props、computed、watch 等所有配置。<br>
+        这对于调试、插件开发或高级用法非常有用。
+      </p>
+      <pre><code>// 访问实例选项对象
+console.log(vm.$options);</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：展示 vm.$options 的部分内容</h3>
+    <div class="options-demo">
+      <div class="options-box">标题：{{ title }}</div>
+      <div class="options-box">作者：{{ author }}</div>
+      <button @click="showOptions">查看 $options</button>
+    </div>
+    <pre><code v-pre>// 选项对象
+data: {
+  title: 'Vue2 $options 示例',
+  author: '小明'
+},
+methods: {
+  showOptions() {
+    console.log(this.$options);
+  }
+}
+// 访问实例选项对象
+console.log(this.$options);
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：访问自定义选项</h3>
+    <div class="tip">
+      <button @click="printCustomOption">打印自定义选项</button>
+    </div>
+    <pre><code>// 访问自定义选项
+this.$options.myCustomOption
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$options</code> 包含实例初始化时的所有选项。<br>
+        - 可以通过 <code>this.$options.data</code>、<code>this.$options.methods</code> 等访问原始配置。<br>
+        - 也可以添加自定义选项，如 <code>myCustomOption</code>，通过 <code>this.$options.myCustomOption</code> 访问。<br>
+        - 适合调试、插件开发等高级场景。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#options-demo',
+      data: {
+        title: 'Vue2 $options 示例',
+        author: '小明'
+      },
+      myCustomOption: '这是一个自定义选项',
+      methods: {
+        showOptions() {
+          console.log('=====> this.$options:', this.$options);
+        },
+        printCustomOption() {
+          console.log('=====> this.$options.myCustomOption:', this.$options.myCustomOption);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

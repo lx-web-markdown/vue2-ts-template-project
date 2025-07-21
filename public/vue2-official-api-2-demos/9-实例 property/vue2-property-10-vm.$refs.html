@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$refs 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .refs-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .input-box {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="refs-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$refs</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$refs</b> 是 Vue 实例的一个对象，持有注册过 ref 属性的 DOM 元素或子组件实例的引用。<br>
+        你可以通过 <code>this.$refs.xxx</code> 访问到对应的 DOM 或组件。<br>
+        <b>注意：</b> <code>$refs</code> 只在组件渲染完成后才保证存在，并且它不是响应式的。
+      </p>
+      <pre><code>// 访问 DOM 元素
+console.log(this.$refs.inputRef);
+// 访问子组件实例
+console.log(this.$refs.childCompRef);</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：访问 DOM 元素</h3>
+    <div class="refs-demo">
+      <div class="input-box">
+        <input ref="inputRef" type="text" placeholder="输入内容后点击按钮" />
+        <button @click="focusInput">聚焦输入框</button>
+        <button @click="printInputValue">打印输入框内容</button>
+      </div>
+    </div>
+    <pre><code v-pre>// 通过 ref 获取 input 元素
+< input ref="inputRef" type="text" />
+// 在方法中访问
+this.$refs.inputRef.value
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：访问子组件实例</h3>
+    <div class="refs-demo">
+      <child-comp ref="childCompRef"></child-comp>
+      <button @click="callChildMethod">调用子组件方法</button>
+    </div>
+    <pre><code v-pre>// 子组件定义
+Vue.component('child-comp', {
+  template: '&lt;div&gt;子组件内容&lt;/div&gt;',
+  methods: {
+    sayHello() {
+      alert('Hello from child component!');
+    }
+  }
+});
+// 父组件中通过 ref 访问子组件实例
+this.$refs.childCompRef.sayHello();
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$refs</code> 只读，包含所有带 ref 的 DOM 或子组件。<br>
+        - <b>不是响应式</b>，不要用来做数据绑定。<br>
+        - 常用于直接操作 DOM 或调用子组件方法。<br>
+        - <b>注意：</b> 在 <code>v-for</code> 中，<code>this.$refs.xxx</code> 是一个数组。
+      </p>
+      <p>
+        参考：<a href="https://v2.cn.vuejs.org/v2/api/#vm-refs" target="_blank">Vue2 官方文档 - vm.$refs</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 注册子组件
+    Vue.component('child-comp', {
+      template: '<div style="padding:8px 0;color:#1890ff;">子组件内容</div>',
+      methods: {
+        sayHello() {
+          alert('Hello from child component!');
+        }
+      }
+    });
+
+    var vm = new Vue({
+      el: '#refs-demo',
+      methods: {
+        focusInput() {
+          this.$refs.inputRef.focus();
+        },
+        printInputValue() {
+          // alert('输入框内容：' + this.$refs.inputRef.value);
+          console.log('input value:', this.$refs.inputRef.value);
+        },
+        callChildMethod() {
+          if (this.$refs.childCompRef) {
+            this.$refs.childCompRef.sayHello();
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

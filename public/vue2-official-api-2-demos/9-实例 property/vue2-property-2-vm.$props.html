@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$props 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .props-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .props-box {
+      padding: 10px 20px;
+      background: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #d48806;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="props-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$props</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$props</b> 是 Vue 实例的一个属性，包含了当前组件接收到的所有 prop。<br>
+        你可以通过 <code>this.$props</code> 访问到所有传递给组件的 prop。<br>
+        <b>注意：</b> <code>vm.$props</code> 只读，不能直接修改。
+      </p>
+      <pre><code>// 访问实例 props 对象
+console.log(vm.$props);</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：展示 vm.$props 内容</h3>
+    <div class="props-demo">
+      <child-comp :msg="parentMsg" :count="parentCount"></child-comp>
+    </div>
+    <pre><code v-pre>// 父组件
+data: {
+  parentMsg: 'Hello from parent!',
+  parentCount: 42
+}
+// 子组件 props
+props: {
+  msg: String,
+  count: Number
+}
+// 访问实例 props 对象
+console.log(this.$props);
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$props</code> 始终包含当前组件接收到的 prop。<br>
+        - <b>只读</b>，不能直接修改 <code>vm.$props</code>。<br>
+        - <code>this.$props.msg === this.msg</code> 返回 true。
+      </p>
+      <p>
+        详细文档请参考：<a href="https://v2.cn.vuejs.org/v2/api/#vm-props" target="_blank">Vue2 官方文档 vm.$props</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 注册子组件
+    Vue.component('child-comp', {
+      props: {
+        msg: String,
+        count: Number
+      },
+      template: `
+        <div>
+          <div class="props-box">msg: {{ msg }}</div>
+          <div class="props-box">count: {{ count }}</div>
+          <button @click="printProps">打印 this.$props</button>
+        </div>
+      `,
+      methods: {
+        printProps() {
+          console.log('=====> this.$props:', this.$props);
+          console.log("🚀 ~ printProps ~ this.$props.msg:", this.$props.msg);
+          console.log("🚀 ~ printProps ~ this.msg:", this.msg);
+        }
+      }
+    });
+
+    // 父组件
+    var vm = new Vue({
+      el: '#props-demo',
+      data: {
+        parentMsg: 'Hello from parent!',
+        parentCount: 42
+      }
+    });
+  </script>
+</body>
+
+</html>

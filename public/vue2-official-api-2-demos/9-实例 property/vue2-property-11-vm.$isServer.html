@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$isServer 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="isServer-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$isServer</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$isServer</b> 是一个只读属性，用于判断当前 Vue 实例是否运行在服务器端（即服务端渲染 SSR）。<br>
+        在浏览器环境下，该属性始终为 <code>false</code>。<br>
+        只有在使用 <b>Vue 服务端渲染</b> 时，该属性才会为 <code>true</code>。
+      </p>
+      <pre><code>// 判断当前是否为服务端渲染
+console.log(vm.$isServer); // 浏览器环境下为 false
+      </code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：展示 vm.$isServer 的值</h3>
+    <div class="data-demo">
+      <div class="data-box">当前是否为服务端渲染：<b>{{ isServer }}</b></div>
+      <button @click="printIsServer">打印 vm.$isServer</button>
+    </div>
+    <pre><code v-pre>// 访问实例属性
+console.log(this.$isServer); // false（浏览器环境）
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$isServer</code> 主要用于需要区分服务端和客户端渲染逻辑的场景。<br>
+        - 在普通前端项目中，该属性通常为 <code>false</code>。<br>
+        - 在 SSR（服务端渲染）环境下，该属性为 <code>true</code>，可用于条件渲染或避免访问浏览器专有 API。
+      </p>
+      <pre><code v-pre>// SSR 场景下的用法示例
+if (this.$isServer) {
+  // 只在服务端执行的逻辑
+} else {
+  // 只在客户端执行的逻辑
+}
+      </code></pre>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#isServer-demo',
+      data: {
+        // 直接读取实例属性
+        isServer: false
+      },
+      mounted() {
+        // 初始化时赋值
+        this.isServer = this.$isServer;
+      },
+      methods: {
+        printIsServer() {
+          console.log('=====> this.$isServer:', this.$isServer);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

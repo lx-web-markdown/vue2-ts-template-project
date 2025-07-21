@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$el 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .el-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .el-box {
+      padding: 10px 20px;
+      background: #e6f7ff;
+      border: 1px solid #91d5ff;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #096dd9;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .highlight {
+      color: #f5222d;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="el-demo" class="box" style="background: #FFF;">
+    <h2>Vue2 实例属性 <code>vm.$el</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$el</b> 是 Vue 实例的一个属性，指向实例所挂载的 DOM 元素。<br>
+        你可以通过 <code>this.$el</code> 访问到 Vue 实例对应的根 DOM 节点。<br>
+        这个属性在实例挂载后（即 <code>mounted</code> 钩子之后）可用。
+      </p>
+      <pre><code>// 访问实例根 DOM 元素
+console.log(vm.$el);</code></pre>
+      <p>
+        详细说明请参考
+        <a href="https://v2.cn.vuejs.org/v2/api/#vm-el" target="_blank">Vue2 官方文档 - vm.$el</a>
+      </p>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：展示 vm.$el 内容</h3>
+    <div class="el-demo">
+      <div class="el-box" id="my-el">Hello Vue2！</div>
+      <button @click="showEl">打印 this.$el</button>
+    </div>
+    <pre><code v-pre>// HTML 结构
+&lt;div id="my-el"&gt;Hello Vue2！&lt;/div&gt;
+
+// 访问实例根 DOM 元素
+console.log(this.$el); // 输出对应的 DOM 节点
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：修改 vm.$el 的样式</h3>
+    <div class="tip">
+      <button @click="highlightEl">高亮显示 this.$el</button>
+    </div>
+    <pre><code>// 通过 this.$el 修改 DOM 样式
+this.$el.style.background = '#fffbe6';
+this.$el.style.border = '2px solid #faad14';
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$el</code> 只读，指向 Vue 实例挂载的根 DOM 元素。<br>
+        - 通常用于需要直接操作 DOM 的场景。<br>
+        - 推荐优先使用 Vue 的数据驱动方式，只有在必须操作 DOM 时才用 <code>vm.$el</code>。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#el-demo',
+      methods: {
+        showEl() {
+          console.log('=====> this.$el:', this.$el);
+          alert('已在控制台打印 this.$el');
+        },
+        highlightEl() {
+          console.log("🚀 ~ highlightEl ~ this.$el.style.background:", this.$el.style.background)
+          if (this.$el.style.background === 'rgb(255, 255, 255)') {
+            this.$el.style.background = '#fffbe6';
+          } else {
+            this.$el.style.background = '#FFF';
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$root 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$root</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$root</b> 是当前组件树的根 Vue 实例。<br>
+        在任何子组件中都可以通过 <code>this.$root</code> 访问到根实例。<br>
+        常用于跨组件通信或访问全局数据。
+      </p>
+      <pre><code>// 访问根实例
+console.log(this.$root);</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：在子组件中访问 $root</h3>
+    <div class="data-demo">
+      <child-comp></child-comp>
+    </div>
+    <pre><code v-pre>// 根实例
+new Vue({
+  el: '#root-demo',
+  data: {
+    message: 'Hello from Root!'
+  },
+  components: {
+    'child-comp': {
+      template: '< div>子组件：< button @click="showRootMessage">显示 $root.message< /button>< /div>',
+      methods: {
+        showRootMessage() {
+          alert('根实例 message: ' + this.$root.message);
+        }
+      }
+    }
+  }
+});
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：根组件中打印 $root 到控制台</h3>
+    <div class="tip">
+      <button @click="printRoot">打印 this.$root</button>
+    </div>
+    <pre><code>// 打印 this.$root
+console.log(this.$root);
+
+console.log("🚀 ~ printRoot ~ this.$root === this 《=》", this.$root === this);          
+
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$root</code> 始终指向组件树的根实例。<br>
+        - 在根实例中 <code>this.$root === this</code> 返回 true。<br>
+        - 在子组件中 <code>this.$root</code> 可访问根实例的数据和方法。<br>
+        - 跨组件通信时可通过 <code>$root</code> 传递事件或数据，但更推荐使用 Vuex 等状态管理。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#root-demo',
+      data: {
+        message: 'Hello from Root!'
+      },
+      methods: {
+        printRoot() {
+          console.log('=====> this.$root:', this.$root);
+          console.log("🚀 ~ printRoot ~ this.$root === this 《=》", this.$root === this);          
+        }
+      },
+      components: {
+        'child-comp': {
+          template: '<div>子组件：<button @click="showRootMessage">显示 $root.message</button></div>',
+          methods: {
+            showRootMessage() {
+              console.log("🚀 ~ showRootMessage ~ this.$root:", this.$root);
+              alert('根实例 message: ' + this.$root.message);
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

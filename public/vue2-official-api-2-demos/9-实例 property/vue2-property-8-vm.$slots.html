@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$slots 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .slot-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .slot-box {
+      padding: 10px 20px;
+      background: #e6f7ff;
+      border: 1px solid #91d5ff;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #096dd9;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="slots-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$slots</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$slots</b> 是 Vue 实例的一个属性，包含了所有传入的插槽内容（VNode 节点集合）。<br>
+        你可以通过 <code>this.$slots</code> 访问所有具名和默认插槽。<br>
+        常用于自定义组件内部，获取和操作插槽内容。
+      </p>
+      <pre><code>// 访问插槽内容
+console.log(this.$slots);
+// 访问默认插槽
+console.log(this.$slots.default);
+// 访问具名插槽
+console.log(this.$slots.header);</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：打印子组件中，默认插槽与具名插槽</h3>
+    <div class="slot-demo">
+      <slot-demo>
+        <template v-slot:header>
+          <div class="slot-box">这里是 header 具名插槽内容</div>
+        </template>
+        <div class="slot-box">这里是默认插槽内容</div>
+      </slot-demo>
+    </div>
+    <pre><code v-pre>// 父组件模板
+< slot-demo>
+  < template v-slot:header>
+    < div>这里是 header 具名插槽内容< /div>
+  < /template>
+  < div>这里是默认插槽内容< /div>
+< /slot-demo>
+
+// 子组件内部
+console.log(this.$slots); // { default: [...], header: [...] }
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：在根组件中打印 vm.$slots</h3>
+    <div class="tip">
+      <button @click="printSlotsAA">打印 根组件中 this.$slots</button>
+    </div>
+    <pre><code>// 打印 this.$slots
+// 也可以通过 vm.$slots 访问
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$slots</code> 是一个对象，包含所有插槽内容的 VNode 数组。<br>
+        - 访问默认插槽用 <code>this.$slots.default</code>，具名插槽用 <code>this.$slots.插槽名</code>。<br>
+        - 插槽内容是 VNode 节点数组，可以用于高级自定义渲染。<br>
+        - <code>vm.$slots</code> 只读，不建议直接修改。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 子组件
+    Vue.component('slot-demo', {
+      template: `
+        <div>
+          <div>
+            <strong>header插槽内容：</strong>
+            <slot name="header"></slot>
+          </div>
+          <div>
+            <strong>默认插槽内容：</strong>
+            <slot></slot>
+          </div>
+          <button @click="printSlots">打印 子组件中 this.$slots</button>
+        </div>
+      `,
+      methods: {
+        printSlots() {
+          console.log('=====> this.$slots:', this.$slots);
+          // 访问默认插槽
+          console.log('=====> this.$slots.default:', this.$slots.default);
+          // 访问具名插槽
+          console.log('=====> this.$slots.header:', this.$slots.header);
+        }
+      }
+    });
+
+    // 根实例
+    var vm = new Vue({
+      el: '#slots-demo',
+      methods: {
+        printSlotsAA() {
+          console.log('=============> 这里没有 $slots，只有子组件有 =》', this.$slots);
+          console.log('=============> vm.$slots =》', vm.$slots);
+          alert('请点击子组件内的“打印 this.$slots”按钮查看控制台输出');
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

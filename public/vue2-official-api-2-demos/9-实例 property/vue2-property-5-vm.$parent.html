@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例属性 vm.$parent 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .parent-box {
+      padding: 10px 20px;
+      background: #e6f7ff;
+      border: 1px solid #91d5ff;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #096dd9;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .child-box {
+      padding: 10px 20px;
+      background: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #d48806;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="parent-demo" class="box">
+    <h2>Vue2 实例属性 <code>vm.$parent</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$parent</b> 是 Vue 实例的一个属性，指向当前实例的父实例。<br>
+        你可以通过 <code>this.$parent</code> 访问父组件实例，从而访问父组件的数据、方法等。<br>
+        <b>注意：</b> 过度依赖 <code>$parent</code> 不是推荐的组件通信方式，建议优先使用 props 和事件。
+      </p>
+      <pre><code>// 访问父组件实例
+console.log(this.$parent);</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：子组件通过 <code>this.$parent</code> 访问父组件数据</h3>
+    <div class="parent-box">
+      父组件数据：{{ parentMsg }}
+      <child-comp></child-comp>
+    </div>
+    <pre><code v-pre>// 父组件
+data: {
+  parentMsg: 'Hello from Parent'
+}
+// 子组件
+mounted() {
+  console.log('子组件的 $parent:', this.$parent);
+  console.log('访问父组件数据:', this.$parent.parentMsg);
+}
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：子组件调用父组件方法</h3>
+    <div class="parent-box">
+      <button @click="parentMsg = '父组件数据已被修改'">父组件按钮：修改数据</button>
+      <child-comp ref="child"></child-comp>
+    </div>
+    <pre><code v-pre>// 父组件
+methods: {
+  changeMsg() {
+    this.parentMsg = '父组件数据已被子组件修改';
+  }
+}
+// 子组件
+methods: {
+  callParentMethod() {
+    this.$parent.changeMsg();
+  }
+}
+    </code></pre>
+    <div class="tip">
+      <button @click="callChildMethod">让子组件调用父组件方法</button>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$parent</code> 指向父组件实例。<br>
+        - 适合简单场景下访问父组件数据或方法。<br>
+        - 更推荐使用 props 和自定义事件进行父子通信。<br>
+        - 多层嵌套时，可以通过 <code>this.$parent.$parent</code> 访问更高层的父组件。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 注册子组件
+    Vue.component('child-comp', {
+      template: `
+        <div class="child-box">
+          子组件：<br>
+          <span>父组件数据：{{ parentMsg }}</span><br>
+          <button @click="showParentMsg">打印父组件数据</button>
+          <button @click="callParentMethod">调用父组件方法</button>
+        </div>
+      `,
+      computed: {
+        parentMsg() {
+          return this.$parent.parentMsg;
+        }
+      },
+      methods: {
+        showParentMsg() {
+          alert('父组件数据：' + this.$parent.parentMsg);
+        },
+        callParentMethod() {
+          if (typeof this.$parent.changeMsg === 'function') {
+            this.$parent.changeMsg();
+          }
+        }
+      },
+      mounted() {
+        console.log('子组件的 $parent:', this.$parent);
+        console.log('访问父组件数据:', this.$parent.parentMsg);
+      }
+    });
+
+    // 父组件实例
+    new Vue({
+      el: '#parent-demo',
+      data: {
+        parentMsg: 'Hello from Parent'
+      },
+      methods: {
+        changeMsg() {
+          this.parentMsg = '父组件数据已被子组件修改';
+        },
+        callChildMethod() {
+          // 通过 ref 调用子组件方法
+          if (this.$refs.child) {
+            this.$refs.child.callParentMethod();
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
