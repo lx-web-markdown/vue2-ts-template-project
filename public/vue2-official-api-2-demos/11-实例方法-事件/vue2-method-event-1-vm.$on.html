@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例方法 vm.$on 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="on-demo" class="box">
+    <h2>Vue2 实例方法 <code>vm.$on</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$on</b> 用于监听当前实例上的自定义事件。<br>
+        你可以通过 <code>this.$on('event', callback)</code> 监听事件，通过 <code>this.$emit('event')</code> 触发事件。<br>
+        常用于组件通信或全局事件总线。<br>
+        <a href="https://v2.cn.vuejs.org/v2/api/#vm-on" target="_blank">官方文档</a>
+      </p>
+      <pre><code>// 监听自定义事件
+vm.$on('my-event', function (msg) {
+  console.log('收到事件:', msg)
+})
+// 触发事件
+vm.$emit('my-event', 'hello')
+</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：监听并触发自定义事件</h3>
+    <div class="data-demo">
+      <div class="data-box">事件消息：{{ message }}</div>
+      <button @click="emitEvent">触发自定义事件</button>
+    </div>
+    <pre><code v-pre>// 监听事件
+this.$on('hello', msg => {
+  this.message = msg
+})
+// 触发事件
+this.$emit('hello', '你好，vm.$on！')
+</code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：移除事件监听</h3>
+    <div class="data-demo">
+      <button @click="removeListener">移除事件监听</button>
+      <button @click="emitEvent">再次触发事件</button>
+    </div>
+    <pre><code v-pre>// 移除事件监听
+this.$off('hello')
+// 再次触发不会响应
+this.$emit('hello', '不会再收到')
+</code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$on</code> 支持监听多个事件，参数可以是数组。<br>
+        - <code>vm.$off</code> 用于移除事件监听。<br>
+        - <code>vm.$once</code> 只监听一次事件。<br>
+        - 事件回调中的 <code>this</code> 指向 Vue 实例本身。<br>
+        - 常用于 EventBus 模式实现组件间通信。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#on-demo',
+      data: {
+        message: '（尚未收到事件）',
+        removed: false
+      },
+      created() {
+        // 监听自定义事件
+        this.$on('hello', this.handleHello);
+      },
+      methods: {
+        handleHello(msg) {
+          this.message = msg;
+        },
+        emitEvent() {
+          this.$emit('hello', '你好，vm.$on！');
+        },
+        removeListener() {
+          this.$off('hello', this.handleHello);
+          this.removed = true;
+          this.message = '（事件监听已移除）';
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

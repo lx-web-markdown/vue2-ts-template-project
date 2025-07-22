@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例方法 vm.$destroy 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .destroyed-msg {
+      color: #f5222d;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 30px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="destroy-demo" class="box">
+    <h2>Vue2 实例方法 <code>vm.$destroy</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$destroy()</b> 用于销毁一个 Vue 实例。<br>
+        调用后会触发 <code>beforeDestroy</code> 和 <code>destroyed</code> 生命周期钩子，解绑所有事件监听器和子实例，断开所有依赖。<br>
+        被销毁的实例无法再响应数据变化，模板内容会被移除。
+      </p>
+      <pre><code>// 销毁 Vue 实例
+vm.$destroy();</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：销毁实例</h3>
+    <div v-if="!destroyed" class="data-demo">
+      <div class="data-box">计数：{{ count }}</div>
+      <button @click="add">增加</button>
+      <button @click="destroyVm" style="margin-left: 20px; color: #f5222d;">销毁实例</button>
+    </div>
+    <div v-else class="destroyed-msg">
+      Vue 实例已被销毁，页面内容已移除。
+    </div>
+    <pre><code v-pre>// 创建实例
+var vm = new Vue({
+  el: '#destroy-demo',
+  data: { count: 0, destroyed: false },
+  methods: {
+    add() { this.count++ },
+    destroyVm() { this.$destroy(); }
+  },
+  beforeDestroy() {
+    console.log('beforeDestroy: 实例即将被销毁');
+  },
+  destroyed() {
+    console.log('destroyed: 实例已被销毁');
+    this.destroyed = true;
+  }
+});
+// 调用 vm.$destroy() 销毁实例
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：销毁后尝试操作</h3>
+    <div class="tip">
+      <button @click="tryAddAfterDestroy">销毁后尝试增加计数</button>
+    </div>
+    <pre><code>// 销毁后再操作实例
+// 计数不会再变化，控制台可能报错或无反应
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$destroy()</code> 只销毁当前实例，不会销毁父组件。<br>
+        - 被销毁的实例会解绑所有事件监听和子实例。<br>
+        - 销毁后模板内容会被移除，数据变化不再响应。<br>
+        - 官方文档：<a href="https://v2.cn.vuejs.org/v2/api/#vm-destroy" target="_blank">vm.$destroy()</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#destroy-demo',
+      data: {
+        count: 0,
+        destroyed: false
+      },
+      methods: {
+        add() {
+          this.count++;
+        },
+        destroyVm() {
+          this.$destroy();
+        },
+        tryAddAfterDestroy() {
+          try {
+            this.count++;
+            console.log('尝试增加计数，当前 count:', this.count);
+          } catch (e) {
+            console.error('实例已销毁，无法操作', e);
+          }
+        }
+      },
+      beforeDestroy() {
+        console.log('beforeDestroy: 实例即将被销毁');
+      },
+      destroyed() {
+        console.log('destroyed: 实例已被销毁');
+        this.destroyed = true;
+      }
+    });
+  </script>
+</body>
+
+</html>

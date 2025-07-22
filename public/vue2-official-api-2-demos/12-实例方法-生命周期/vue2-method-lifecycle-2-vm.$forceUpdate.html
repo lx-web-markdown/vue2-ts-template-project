@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例方法 vm.$forceUpdate 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .btns {
+      margin-top: 10px;
+    }
+
+    .btns button {
+      margin-right: 10px;
+      padding: 6px 16px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #1890ff;
+      background: #e6f7ff;
+      color: #1890ff;
+      cursor: pointer;
+    }
+
+    .btns button:last-child {
+      margin-right: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="force-update-demo" class="box">
+    <h2>Vue2 实例方法 <code>vm.$forceUpdate</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$forceUpdate()</b> 用于强制 Vue 实例重新渲染。<br>
+        当你直接修改了对象的非响应式属性时，视图不会自动更新，这时可以调用 <code>this.$forceUpdate()</code> 让视图强制刷新。<br>
+        <b>注意：</b> 这只会影响实例本身和插入插槽内容的子组件，不会影响所有子组件。
+      </p>
+      <pre><code>// 强制组件重新渲染
+this.$forceUpdate()</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例：直接添加对象属性，视图不会自动更新</h3>
+    <div class="data-demo">
+      <div class="data-box">count: {{ info.count }}</div>
+      <div class="data-box">msg: {{ info.msg }}</div>
+      <div class="btns">
+        <button @click="addMsg">直接 info.msg = 'Hello'（不刷新视图）</button>
+        <button @click="forceUpdate">强制刷新（$forceUpdate）</button>
+        <button @click="printInfo">打印 info 到控制台</button>
+      </div>
+    </div>
+    <pre><code v-pre>// data 选项
+info: {
+  count: 1
+}
+// 直接添加新属性
+this.info.msg = 'Hello'; // 视图不会自动更新
+// 强制刷新
+this.$forceUpdate();
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$forceUpdate()</code> 只会让当前实例和插槽内容的子组件重新渲染。<br>
+        - 推荐优先让数据响应式（如 <code>Vue.set</code>），只有特殊场景才用 <code>$forceUpdate</code>。<br>
+        - 直接添加对象新属性不是响应式的，需用 <code>Vue.set</code> 或 <code>$set</code>。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#force-update-demo',
+      data: {
+        info: {
+          count: 1
+          // msg 未定义
+        }
+      },
+      methods: {
+        addMsg() {
+          this.info.msg = 'Hello';
+          // 视图不会自动更新
+        },
+        forceUpdate() {
+          this.$forceUpdate();
+        },
+        printInfo() {
+          console.log('=====> info:', this.info);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例方法 vm.$set 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .array-box {
+      padding: 10px 20px;
+      background: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #d48806;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="set-demo" class="box">
+    <h2>Vue2 实例方法 <code>vm.$set</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$set</b> 是 Vue 实例的一个方法，用于向响应式对象添加新属性，或者修改数组指定索引的值。<br>
+        由于 Vue 2 的响应式系统的限制，直接给对象新增属性或直接通过索引修改数组元素，<b>不会</b>触发视图更新。<br>
+        使用 <code>this.$set</code> 可以保证新属性或数组元素是响应式的，视图会自动更新。<br>
+        <a href="https://v2.cn.vuejs.org/v2/api/#vm-set" target="_blank">官方文档：vm.$set</a>
+      </p>
+      <pre><code>// 语法
+vm.$set(target, key, value)
+// 或 Vue.set(target, key, value)
+      </code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：对象新增响应式属性</h3>
+    <div class="data-demo">
+      <div class="data-box">姓名：{{ user.name }}</div>
+      <div class="data-box">年龄：{{ user.age }}</div>
+      <div class="data-box">性别：{{ user.gender || '（未设置）' }}</div>
+      <button @click="addGender2"> 直接添加 gender 属性</button>
+      <button @click="addGender">用 $set 添加 gender 属性</button>
+    </div>
+    <pre><code v-pre>// data 选项
+user: {
+  name: '小明',
+  age: 18
+}
+// 新增属性（响应式）
+this.$set(this.user, 'gender', '男');
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：修改数组指定索引的值</h3>
+    <div class="data-demo">
+      <div class="array-box">分数数组：{{ scores }}</div>
+      <button @click="changeScore">用 $set 修改第2个分数</button>
+    </div>
+    <pre><code v-pre>// data 选项
+scores: [80, 90, 100]
+// 错误写法（不会响应式更新）
+// this.scores[1] = 99;
+// 正确写法
+this.$set(this.scores, 1, 99);
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>对比：<code>Vue.set</code> 与 <code>this.$set</code></h3>
+    <div class="tip">
+      <p>
+        <b>相同点：</b> 都可以为响应式对象添加新属性或修改数组索引，都会触发视图更新。<br>
+        <b>不同点：</b> <code>this.$set</code> 是实例方法，<code>Vue.set</code> 是全局静态方法。<br>
+        <b>推荐：</b> 在组件实例内部优先用 <code>this.$set</code>，在实例外部（如插件、工具函数）用 <code>Vue.set</code>。
+      </p>
+      <pre><code v-pre>// 用法对比
+// 在组件方法里
+this.$set(obj, key, value)
+// 在组件外部
+Vue.set(obj, key, value)
+      </code></pre>
+    </div>
+    <div class="data-demo">
+      <div class="data-box">用户邮箱：{{ user.email || '（未设置）' }}</div>
+      <button @click="addEmailByThisSet">用 this.$set 添加 email</button>
+      <button @click="addEmailByVueSet">用 Vue.set 添加 email</button>
+    </div>
+    <pre><code v-pre>// this.$set 用法
+this.$set(this.user, 'email', 'thisset@demo.com')
+// Vue.set 用法
+Vue.set(this.user, 'email', 'test@demo.com')
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$set</code> 适用于对象和数组。<br>
+        - 推荐优先使用 <code>this.$set</code>，也可以用 <code>Vue.set</code>。<br>
+        - 直接赋值新增属性或数组索引，Vue2 无法检测到，视图不会自动更新。<br>
+        - <code>vm.$set</code> 只影响响应式对象，普通对象无效。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#set-demo',
+      data: {
+        user: {
+          name: '小明',
+          age: 18
+        },
+        scores: [80, 90, 100]
+      },
+      methods: {
+        addGender2() {
+          this.user.gender = '中';
+          console.log('切换 gender 属性:', this.user);
+        },
+        addGender() {
+          if (!('gender' in this.user)) {
+            this.$set(this.user, 'gender', '男');
+            console.log('用 $set 添加 gender 属性:', this.user);
+          } else {
+            this.user.gender = this.user.gender === '男' ? '女' : '男';
+            console.log('切换 gender 属性:', this.user);
+          }
+        },
+        changeScore() {
+          this.$set(this.scores, 1, this.scores[1] === 90 ? 99 : 90);
+          console.log('用 $set 修改 scores[1]:', this.scores);
+        },
+        addEmailByThisSet() {
+          this.$set(this.user, 'email', 'thisset@demo.com');
+          console.log('用 this.$set 添加 email:', this.user);
+        },
+        addEmailByVueSet() {
+          Vue.set(this.user, 'email', 'vueset@demo.com');
+          console.log('用 Vue.set 添加 email:', this.user);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

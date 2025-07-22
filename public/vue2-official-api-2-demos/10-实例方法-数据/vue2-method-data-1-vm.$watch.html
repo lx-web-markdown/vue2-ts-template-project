@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例方法 vm.$watch 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 900px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      overflow-x: auto;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .log-box {
+      background: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 6px;
+      padding: 10px 20px;
+      margin: 10px 0;
+      color: #d48806;
+      font-size: 16px;
+      min-height: 40px;
+    }
+    button {
+      margin-right: 10px;
+      margin-bottom: 10px;
+      padding: 6px 16px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #1890ff;
+      background: #e6f7ff;
+      color: #1890ff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #bae7ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="watch-demo" class="box">
+    <h2>Vue2 实例方法 <code>vm.$watch</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$watch</b> 是 Vue 实例的一个方法，用于观察 Vue 实例上的数据变动。<br>
+        你可以通过 <code>this.$watch('key', callback)</code> 监听 data、props 上的数据变化。<br>
+        支持监听普通属性、嵌套对象、数组等，并可配置 <code>immediate</code> 和 <code>deep</code> 选项。
+      </p>
+      <pre><code>// 基本用法
+vm.$watch('someKey', function (newVal, oldVal) {
+  // 处理变化
+});
+// 也可以传递选项对象
+vm.$watch('someKey', callback, { immediate: true, deep: true });
+      </code></pre>
+      <p>详细文档见 <a href="https://v2.cn.vuejs.org/v2/api/#vm-watch" target="_blank">官方文档</a></p>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：监听普通属性变化</h3>
+    <div class="data-demo">
+      <div class="data-box">计数器：{{ count }}</div>
+      <button @click="incCount">增加 count</button>
+      <button @click="decCount">减少 count</button>
+    </div>
+    <div class="log-box">
+      <div v-for="log in logs1" :key="log">{{ log }}</div>
+    </div>
+    <pre><code v-pre>// 监听 count 变化
+this.$watch('count', function (newVal, oldVal) {
+  console.log('count 变化:', oldVal, '=>', newVal);
+});
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：immediate 立即执行</h3>
+    <div class="data-demo">
+      <div class="data-box">姓名：{{ name }}</div>
+      <button @click="changeName">切换姓名</button>
+    </div>
+    <div class="log-box">
+      <div v-for="log in logs2" :key="log">{{ log }}</div>
+    </div>
+    <pre><code v-pre>// immediate: true，立即执行一次回调
+this.$watch('name', function (newVal, oldVal) {
+  console.log('name 变化:', oldVal, '=>', newVal);
+}, { immediate: true });
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例3：deep 深度监听对象</h3>
+    <div class="data-demo">
+      <div class="data-box">地址：{{ user.address.city }}</div>
+      <button @click="changeCity">切换城市</button>
+    </div>
+    <div class="log-box">
+      <div v-for="log in logs3" :key="log">{{ log }}</div>
+    </div>
+    <pre><code v-pre>// deep: true，深度监听对象
+this.$watch('user', function (newVal, oldVal) {
+  console.log('user 变化:', oldVal, '=>', newVal);
+}, { deep: true });
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$watch</code> 返回一个取消观察的函数。<br>
+        - 可以监听嵌套属性、数组、对象等。<br>
+        - <code>deep</code> 适用于对象/数组的深度变化监听。<br>
+        - <code>immediate</code> 让回调在监听后立即执行一次。<br>
+        - 推荐在 <code>created</code> 或 <code>mounted</code> 钩子中注册 watcher。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#watch-demo',
+      data: {
+        count: 0,
+        name: '小明',
+        user: {
+          address: {
+            city: '北京'
+          }
+        },
+        logs1: [],
+        logs2: [],
+        logs3: []
+      },
+      methods: {
+        incCount() {
+          this.count++;
+        },
+        decCount() {
+          this.count--;
+        },
+        changeName() {
+          this.name = this.name === '小明' ? '小红' : '小明';
+        },
+        changeCity() {
+          this.user.address.city = this.user.address.city === '北京' ? '上海' : '北京';
+        }
+      },
+      created() {
+        // 示例1：监听 count
+        this.$watch('count', (newVal, oldVal) => {
+          const msg = `count 变化: ${oldVal} => ${newVal}`;
+          this.logs1.push(msg);
+          // 控制台也打印
+          console.log(msg);
+        });
+        // 示例2：immediate
+        this.$watch('name', (newVal, oldVal) => {
+          const msg = `name 变化: ${oldVal} => ${newVal}`;
+          this.logs2.push(msg);
+          console.log(msg);
+        }, { immediate: true });
+        // 示例3：deep
+        this.$watch('user', (newVal, oldVal) => {
+          const msg = `user 变化: ${JSON.stringify(oldVal)} => ${JSON.stringify(newVal)}`;
+          this.logs3.push(msg);
+          console.log(msg);
+        }, { deep: true });
+      }
+    });
+  </script>
+</body>
+
+</html>

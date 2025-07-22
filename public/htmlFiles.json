@@ -333,6 +333,50 @@
     {
       "fileName": "14_实例property-attrs和listeners综合示例",
       "filePath": "vue2-official-api-2-demos/9-实例 property/vue2-property-14-attrs-listeners-inheritAttrs-demo.html"
+    },
+    {
+      "fileName": "15_实例方法-数据-vm.$watch",
+      "filePath": "vue2-official-api-2-demos/10-实例方法-数据/vue2-method-data-1-vm.$watch.html"
+    },
+    {
+      "fileName": "16_实例方法-数据-vm.$set",
+      "filePath": "vue2-official-api-2-demos/10-实例方法-数据/vue2-method-data-2-vm.$set.html"
+    },
+    {
+      "fileName": "17_实例方法-数据-vm.$delete",
+      "filePath": "vue2-official-api-2-demos/10-实例方法-数据/vue2-method-data-3-vm.$delete.html"
+    },
+    {
+      "fileName": "18_实例方法-事件-vm.$on",
+      "filePath": "vue2-official-api-2-demos/11-实例方法-事件/vue2-method-event-1-vm.$on.html"
+    },
+    {
+      "fileName": "19_实例方法-事件-vm.$once",
+      "filePath": "vue2-official-api-2-demos/11-实例方法-事件/vue2-method-event-2-vm.$once.html"
+    },
+    {
+      "fileName": "20_实例方法-事件-vm.$off",
+      "filePath": "vue2-official-api-2-demos/11-实例方法-事件/vue2-method-event-3-vm.$off.html"
+    },
+    {
+      "fileName": "21_实例方法-事件-vm.$emit",
+      "filePath": "vue2-official-api-2-demos/11-实例方法-事件/vue2-method-event-4-vm.$emit.html"
+    },
+    {
+      "fileName": "22_实例方法-生命周期-vm.$mount",
+      "filePath": "vue2-official-api-2-demos/12-实例方法-生命周期/vue2-method-lifecycle-1-vm.$mount.html"
+    },
+    {
+      "fileName": "23_实例方法-生命周期-vm.$forceUpdate",
+      "filePath": "vue2-official-api-2-demos/12-实例方法-生命周期/vue2-method-lifecycle-2-vm.$forceUpdate.html"
+    },
+    {
+      "fileName": "24_实例方法-生命周期-vm.$nextTick",
+      "filePath": "vue2-official-api-2-demos/12-实例方法-生命周期/vue2-method-lifecycle-3-vm.$nextTick.html"
+    },
+    {
+      "fileName": "25_实例方法-生命周期-vm.$destroy",
+      "filePath": "vue2-official-api-2-demos/12-实例方法-生命周期/vue2-method-lifecycle-4-vm.$destroy.html"
     }
   ],
   "vue2-official-example-demos": [

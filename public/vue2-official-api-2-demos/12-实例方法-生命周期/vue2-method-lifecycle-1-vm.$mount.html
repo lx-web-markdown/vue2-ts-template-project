@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例方法 vm.$mount 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .mount-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .mount-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .mount-target {
+      border: 1px dashed #aaa;
+      min-height: 40px;
+      padding: 10px;
+      margin: 10px 0;
+      background: #fafafa;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h2>Vue2 实例方法 <code>vm.$mount</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$mount</b> 是 Vue 实例的一个方法，用于手动挂载实例到指定的 DOM 元素上。<br>
+        通常在创建 Vue 实例时通过 <code>el</code> 选项自动挂载，但也可以先不指定 <code>el</code>，后续通过 <code>vm.$mount('#app')</code> 挂载。<br>
+        适用于需要在特定时机才挂载的场景。
+      </p>
+      <pre><code>// 手动挂载
+var vm = new Vue({ ... });
+vm.$mount('#app');
+      </code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：手动挂载 Vue 实例</h3>
+    <div class="mount-demo">
+      <div id="mount-target" class="mount-target"></div>
+      <button id="mount-btn">手动挂载 Vue 实例</button>
+      <div id="mount-status" class="tip"></div>
+    </div>
+    <pre><code v-pre>// 没有 el 选项，稍后手动挂载
+var vm = new Vue({
+  data: {
+    message: 'Hello Vue! (通过 $mount 挂载)'
+  },
+  template: '&lt;div class="mount-box"&gt;{{ message }}&lt;/div&gt;'
+});
+// 手动挂载
+vm.$mount('#mount-target');
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$mount</code> 返回实例自身，可以链式调用。<br>
+        - 如果未传入参数，则会使用实例的 <code>el</code> 选项。<br>
+        - 常用于需要延迟挂载或服务端渲染的场景。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      data: {
+        message: 'Hello Vue! (通过 $mount 挂载)'
+      },
+      template: '<div class="mount-box">{{ message }}</div>'
+    });
+
+    var mounted = false;
+    document.getElementById('mount-btn').onclick = function () {
+      if (!mounted) {
+        vm.$mount('#mount-target');
+        document.getElementById('mount-status').innerText = '已挂载到 #mount-target';
+        mounted = true;
+      } else {
+        document.getElementById('mount-status').innerText = '已经挂载过了';
+      }
+    };
+  </script>
+</body>
+
+</html>

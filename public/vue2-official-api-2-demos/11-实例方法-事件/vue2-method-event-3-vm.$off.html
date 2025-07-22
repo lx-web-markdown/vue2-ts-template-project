@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例方法 vm.$off 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .event-log {
+      margin: 10px 0;
+      color: #096dd9;
+      font-size: 16px;
+      background: #e6f7ff;
+      border: 1px solid #91d5ff;
+      border-radius: 4px;
+      padding: 6px 12px;
+      min-height: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="off-demo" class="box">
+    <h2>Vue2 实例方法 <code>vm.$off</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$off</b> 用于移除自定义事件监听器。<br>
+        - 不传参数时，移除所有事件监听器。<br>
+        - 传事件名时，移除该事件的所有监听器。<br>
+        - 传事件名和回调时，只移除该事件的指定回调。<br>
+        <br>
+        <a href="https://v2.cn.vuejs.org/v2/api/#vm-off" target="_blank">官方文档</a>
+      </p>
+      <pre><code>// 语法
+vm.$off([event], [callback])</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：注册、触发、移除事件</h3>
+    <div class="data-demo">
+      <button @click="onEvent">注册事件</button>
+      <button @click="emitEvent">触发事件</button>
+      <button @click="offEvent">移除事件</button>
+      <div class="event-log">事件触发次数：<span class="data-box">{{ count }}</span></div>
+    </div>
+    <pre><code v-pre>// 注册事件
+this.$on('my-event', handler)
+// 触发事件
+this.$emit('my-event')
+// 移除事件
+this.$off('my-event', handler)
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：移除所有事件监听器</h3>
+    <div class="data-demo">
+      <button @click="onMulti">注册多个事件</button>
+      <button @click="emitMulti">触发所有事件</button>
+      <button @click="offAll">移除所有事件</button>
+      <div class="event-log">A事件：<span class="data-box">{{ aCount }}</span>，B事件：<span class="data-box">{{ bCount
+          }}</span></div>
+    </div>
+    <pre><code v-pre>// 注册多个事件
+this.$on('a', handlerA)
+this.$on('b', handlerB)
+// 触发
+this.$emit('a')
+this.$emit('b')
+// 移除所有事件
+this.$off()
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$off()</code> 可移除所有事件监听器。<br>
+        - <code>vm.$off('event')</code> 只移除指定事件的监听器。<br>
+        - <code>vm.$off('event', callback)</code> 只移除指定事件的指定回调。<br>
+        - 事件移除后，触发不会再响应。<br>
+        - 适用于组件销毁前清理事件监听。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var handler = function () {
+      vm.count++;
+      console.log('my-event 触发，count:', vm.count);
+    };
+    var handlerA = function () {
+      vm.aCount++;
+      console.log('a 事件触发，aCount:', vm.aCount);
+    };
+    var handlerB = function () {
+      vm.bCount++;
+      console.log('b 事件触发，bCount:', vm.bCount);
+    };
+    var vm = new Vue({
+      el: '#off-demo',
+      data: {
+        count: 0,
+        aCount: 0,
+        bCount: 0,
+        eventOn: false,
+        multiOn: false
+      },
+      methods: {
+        onEvent() {
+          if (!this.eventOn) {
+            this.$on('my-event', handler);
+            this.eventOn = true;
+            alert('已注册 my-event 事件监听器');
+          } else {
+            alert('my-event 事件已注册');
+          }
+        },
+        emitEvent() {
+          this.$emit('my-event');
+        },
+        offEvent() {
+          this.$off('my-event', handler);
+          this.eventOn = false;
+          alert('已移除 my-event 事件监听器');
+        },
+        onMulti() {
+          if (!this.multiOn) {
+            this.$on('a', handlerA);
+            this.$on('b', handlerB);
+            this.multiOn = true;
+            alert('已注册 a 和 b 事件监听器');
+          } else {
+            alert('a 和 b 事件已注册');
+          }
+        },
+        emitMulti() {
+          this.$emit('a');
+          this.$emit('b');
+        },
+        offAll() {
+          this.$off();
+          this.multiOn = false;
+          this.eventOn = false;
+          alert('已移除所有事件监听器');
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

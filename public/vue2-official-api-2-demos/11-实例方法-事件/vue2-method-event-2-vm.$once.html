@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 实例方法 vm.$once 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .event-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .event-box {
+      padding: 10px 20px;
+      background: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #d48806;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .log-list {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      color: #389e0d;
+      font-size: 16px;
+      min-height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="once-demo" class="box">
+    <h2>Vue2 实例方法 <code>vm.$once</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>vm.$once</b> 用于监听一个自定义事件，但只触发一次，触发后监听器会自动移除。<br>
+        适合只需响应一次的场景，例如一次性通知、初始化等。<br>
+        语法：<code>vm.$once(event, callback)</code>
+      </p>
+      <pre><code>// 只监听一次自定义事件
+vm.$once('my-event', function (msg) {
+  console.log('只会触发一次:', msg);
+});
+// 触发事件
+vm.$emit('my-event', 'hello');
+      </code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例：vm.$once 只响应一次事件</h3>
+    <div class="event-demo">
+      <button @click="emitEvent">触发 my-event</button>
+      <div class="event-box">已触发次数：{{ count }}</div>
+      <div class="log-list">
+        <div v-for="(log, idx) in logs" :key="idx">{{ log }}</div>
+      </div>
+    </div>
+    <pre><code v-pre>// 只监听一次 my-event
+this.$once('my-event', function(msg) {
+  // 只会执行一次
+  console.log('my-event 触发:', msg);
+});
+// 多次触发
+this.$emit('my-event', '第1次');
+this.$emit('my-event', '第2次');
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>vm.$once</code> 只会监听并响应一次事件，后续同名事件不会再触发回调。<br>
+        - 常用于只需响应一次的场景。<br>
+        - 事件触发后监听器会自动移除。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#once-demo',
+      data: {
+        count: 0,
+        logs: []
+      },
+      methods: {
+        emitEvent() {
+          this.$emit('my-event', `第${this.count + 1}次触发`);
+        }
+      },
+      mounted() {
+        // 只监听一次 my-event
+        this.$once('my-event', (msg) => {
+          this.count++;
+          this.logs.push(`my-event 触发: ${msg}`);
+          console.log('my-event 触发:', msg);
+        });
+        // 监听所有 my-event 触发，统计总次数（仅用于演示）
+        this.$on('my-event', () => {
+          if (this.count === 0) {
+            this.logs.push('my-event 触发，但 $once 只响应一次');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
