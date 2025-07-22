@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 内置组件 <component> 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .switch-btn {
+      margin-right: 10px;
+      padding: 6px 16px;
+      border: 1px solid #1890ff;
+      background: #e6f7ff;
+      color: #1890ff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .switch-btn.active {
+      background: #1890ff;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="component-demo" class="box">
+    <h2>Vue2 内置组件 <code>&lt;component&gt;</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>&lt;component&gt;</b> 是 Vue 的内置组件，用于动态地绑定并渲染已注册的组件类型。<br>
+        通过 <code>is</code> 属性，可以根据数据动态切换不同的组件，非常适合做动态组件、Tab 切换等场景。
+      </p>
+      <pre><code>&lt;component :is="currentComp"&gt;&lt;/component&gt;</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例：动态切换组件</h3>
+    <div class="data-demo">
+      <button class="switch-btn" :class="{active: currentComp === 'user-card'}"
+        @click="currentComp = 'user-card'">用户卡片</button>
+      <button class="switch-btn" :class="{active: currentComp === 'product-card'}"
+        @click="currentComp = 'product-card'">产品卡片</button>
+      <div style="margin-top: 20px;">
+        <component :is="currentComp"></component>
+      </div>
+    </div>
+    <pre><code v-pre>// 注册两个组件
+Vue.component('user-card', {
+  template: `< div class="data-box">👤 用户：小明 &nbsp; 年龄：18< /div>`
+});
+Vue.component('product-card', {
+  template: `< div class="data-box">📦 产品：Vue.js &nbsp; 版本：2.x< /div>`
+});
+// 动态切换
+new Vue({
+  el: '#component-demo',
+  data: {
+    currentComp: 'user-card'
+  }
+});
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>&lt;component :is="..."&gt;</code> 可以绑定字符串（组件名）或组件对象。<br>
+        - 适合做动态内容、Tab 切换、弹窗等场景。<br>
+        - 也可与 <code>keep-alive</code> 结合缓存组件状态。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    Vue.component('user-card', {
+      template: '<div class="data-box">👤 用户：小明 &nbsp; 年龄：18</div>'
+    });
+    Vue.component('product-card', {
+      template: '<div class="data-box">📦 产品：Vue.js &nbsp; 版本：2.x</div>'
+    });
+    new Vue({
+      el: '#component-demo',
+      data: {
+        currentComp: 'user-card'
+      }
+    });
+  </script>
+</body>
+
+</html>

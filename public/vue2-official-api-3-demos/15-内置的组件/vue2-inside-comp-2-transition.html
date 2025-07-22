@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 内置组件 transition 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity 0.5s;
+    }
+
+    .fade-enter,
+    .fade-leave-to {
+      opacity: 0;
+    }
+
+    .demo-btn {
+      margin: 10px 0;
+      padding: 6px 18px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #1890ff;
+      background: #e6f7ff;
+      color: #1890ff;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .demo-btn:hover {
+      background: #bae7ff;
+    }
+
+    .demo-box {
+      margin: 20px 0;
+      min-height: 40px;
+    }
+
+    .demo-content {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="transition-demo" class="box">
+    <h2>Vue2 内置组件 <code>&lt;transition&gt;</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>&lt;transition&gt;</b> 是 Vue2 内置的过渡动画组件。<br>
+        它为进入/离开 DOM 的元素或组件提供过渡效果。<br>
+        只需包裹需要过渡的元素，并为其设置 CSS 过渡类名即可。
+      </p>
+      <pre><code>&lt;transition name="fade"&gt;
+  &lt;div v-if="show"&gt;内容&lt;/div&gt;
+&lt;/transition&gt;</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：淡入淡出动画</h3>
+    <button class="demo-btn" @click="toggle">切换显示/隐藏</button>
+    <div class="demo-box">
+      <transition name="fade">
+        <div v-if="show" class="demo-content">
+          Hello，Vue2 transition！
+        </div>
+      </transition>
+    </div>
+    <pre><code v-pre>&lt;transition name="fade"&gt;
+  &lt;div v-if="show"&gt;Hello，Vue2 transition！&lt;/div&gt;
+&lt;/transition&gt;
+
+data: {
+  show: true
+},
+methods: {
+  toggle() {
+    this.show = !this.show;
+  }
+}
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>更多说明</h3>
+    <div class="tip">
+      <p>
+        - <code>&lt;transition&gt;</code> 只渲染一个子元素或组件。<br>
+        - 支持多种过渡方式：CSS 过渡、CSS 动画、JavaScript 钩子。<br>
+        - 常用属性：<code>name</code>、<code>appear</code>、<code>mode</code> 等。<br>
+        - 详细用法见 <a href="https://v2.cn.vuejs.org/v2/api/#transition" target="_blank">官方文档</a>。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#transition-demo',
+      data: {
+        show: true
+      },
+      methods: {
+        toggle() {
+          this.show = !this.show;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

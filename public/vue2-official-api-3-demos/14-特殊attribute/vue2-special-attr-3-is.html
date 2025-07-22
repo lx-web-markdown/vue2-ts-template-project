@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 特殊 attribute 'is' 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px dashed #ccc;
+    }
+
+    button {
+      margin-right: 10px;
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="box">
+    <h2>Vue2 特殊 attribute <code>is</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <code>is</code> 特殊 attribute 用于动态组件，并且可以解决一些 HTML 元素的限制问题。<br>
+        例如，<code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, <code>&lt;table&gt;</code> 和 <code>&lt;select&gt;</code> 这些元素里只允许包含特定的子元素，使用自定义组件时会浏览器被认为是无效的内容从而导致渲染错误。
+      </p>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：用于动态组件</h3>
+    <div class="demo">
+      <p>当前组件: {{ currentComponent }}</p>
+      <button @click="switchComponent('component-a')">显示组件 A</button>
+      <button @click="switchComponent('component-b')">显示组件 B</button>
+      <button @click="switchComponent('component-c')">显示组件 C</button>
+      <div style="margin-top: 10px; padding: 10px; border: 1px solid #1890ff;">
+        <component :is="currentComponent"></component>
+      </div>
+    </div>
+    <pre><code v-pre>
+&lt;!-- 动态组件 --&gt;
+&lt;component :is="currentComponent"&gt;&lt;/component&gt;
+...
+data: {
+  currentComponent: 'component-a'
+},
+components: {
+  'component-a': { template: '&lt;div&gt;这是组件 A&lt;/div&gt;' },
+  'component-b': { template: '&lt;div&gt;这是组件 B&lt;/div&gt;' },
+  'component-c': { template: '&lt;div&gt;这是组件 C&lt;/div&gt;' }
+}
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：解决 HTML 模板限制</h3>
+    <p class="tip">一些 HTML 元素，如 <code>&lt;ul&gt;</code>、<code>&lt;ol&gt;</code>、<code>&lt;table&gt;</code> 和 <code>&lt;select&gt;</code>，对于它们内部可以包含哪些元素有限制。
+      例如，<code>&lt;tr&gt;</code> 元素里不能直接放一个自定义组件。这时可以用 <code>is</code> attribute。</p>
+    <div class="demo">
+      <table>
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>年龄</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 使用 is attribute 来渲染组件 -->
+          <tr is="my-table-row" v-for="person in people" :key="person.id" :person="person"></tr>
+        </tbody>
+      </table>
+    </div>
+    <pre><code v-pre>
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr is="my-table-row" v-for="person in people" :key="person.id" :person="person"&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+...
+Vue.component('my-table-row', {
+  props: ['person'],
+  template: `
+    &lt;tr&gt;
+      &lt;td&gt;{{ person.name }}&lt;/td&gt;
+      &lt;td&gt;{{ person.age }}&lt;/td&gt;
+    &lt;/tr&gt;
+  `
+});
+    </code></pre>
+  </div>
+
+  <script>
+    Vue.component('component-a', {
+      template: '<div>这是组件 A</div>'
+    });
+    Vue.component('component-b', {
+      template: '<div>这是组件 B</div>'
+    });
+    Vue.component('component-c', {
+      template: '<div>这是组件 C</div>'
+    });
+
+    // 定义一个表格行组件
+    Vue.component('my-table-row', {
+        props: ['person'],
+        // The component that replaces 'tr' should have 'tbody' as its root element,
+        // because a component must have a single root element, and 'tbody' can contain 'tr'.
+        // The final rendered output will replace the component tag with the content of the template,
+        // so `<tbody><tr>...</tr></tbody>` becomes `<tr>...</tr>`, which is correct inside the table.
+        template: `
+          <tbody>
+            <tr>
+              <td>{{ person.name }}</td>
+              <td>{{ person.age }}</td>
+            </tr>
+          </tbody>
+        `
+    });
+
+    new Vue({
+      el: '#app',
+      data: {
+        currentComponent: 'component-a',
+        people: [
+          { id: 1, name: '小明', age: 20 },
+          { id: 2, name: '小红', age: 22 },
+          { id: 3, name: '小刚', age: 25 }
+        ]
+      },
+      methods: {
+        switchComponent(componentName) {
+          this.currentComponent = componentName;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

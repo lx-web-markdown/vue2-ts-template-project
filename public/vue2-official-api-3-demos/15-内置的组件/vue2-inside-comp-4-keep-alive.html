@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 内置组件 keep-alive 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .demo-box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin-right: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background: #f0f0f0;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #e0e0e0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="box">
+    <h2>Vue2 内置组件 <code>&lt;keep-alive&gt;</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <code>&lt;keep-alive&gt;</code> 是 Vue 的一个内置组件，可以使其包裹的动态切换的组件被缓存起来。<br>
+        当组件在 <code>&lt;keep-alive&gt;</code> 内被切换时，它的状态将被保留在内存中，而不会被销毁和重建。<br>
+        它有两个生命周期钩子：<code>activated</code> 和 <code>deactivated</code>。
+      </p>
+      <pre><code>&lt;keep-alive&gt;
+  &lt;component :is="view"&gt;&lt;/component&gt;
+&lt;/keep-alive&gt;</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：基本用法与对比</h3>
+    <div id="demo1">
+      <p>在输入框中输入内容，然后切换组件。请打开浏览器控制台查看生命周期钩子的调用情况。</p>
+      <button @click="currentView = 'comp-a'">组件 A</button>
+      <button @click="currentView = 'comp-b'">组件 B</button>
+
+      <div class="demo-box">
+        <strong>有 <code>&lt;keep-alive&gt;</code> (组件状态被缓存):</strong>
+        <keep-alive>
+          <component :is="currentView"></component>
+        </keep-alive>
+      </div>
+
+      <div class="demo-box">
+        <strong>没有 <code>&lt;keep-alive&gt;</code> (组件被销毁和重建):</strong>
+        <component :is="currentView"></component>
+      </div>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：<code>include</code> 和 <code>exclude</code></h3>
+    <div id="demo2">
+      <p><code>include</code> - 只有名称匹配的组件会被缓存。<code>exclude</code> - 任何名称匹配的组件都不会被缓存。</p>
+      <p>下面的示例中，只有 <b>组件A</b> 和 <b>组件B</b> 会被缓存 (<code>include="comp-a,comp-b"</code>)。<b>组件C</b> 则不会被缓存。</p>
+      <button @click="currentView = 'comp-a'">组件 A</button>
+      <button @click="currentView = 'comp-b'">组件 B</button>
+      <button @click="currentView = 'comp-c'">组件 C</button>
+      <div class="demo-box">
+        <keep-alive include="comp-a,comp-b">
+          <component :is="currentView"></component>
+        </keep-alive>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const Comp = {
+      template: `
+        <div>
+          <h4>{{ name }}</h4>
+          <p>输入一些内容:</p>
+          <input type="text" :placeholder="'在' + name + '中输入...'" style="width: 250px; padding: 5px;" />
+        </div>
+      `,
+      created() {
+        console.log(`%c${this.name} - created`, 'color: green');
+      },
+      destroyed() {
+        console.log(`%c${this.name} - destroyed`, 'color: red');
+      },
+      activated() {
+        console.log(`%c${this.name} - activated`, 'color: blue');
+      },
+      deactivated() {
+        console.log(`%c${this.name} - deactivated`, 'color: orange');
+      },
+    };
+
+    Vue.component('comp-a', {
+      ...Comp,
+      name: 'comp-a', // For include/exclude matching
+      data: () => ({ name: '组件 A' })
+    });
+
+    Vue.component('comp-b', {
+      ...Comp,
+      name: 'comp-b',
+      data: () => ({ name: '组件 B' })
+    });
+
+    Vue.component('comp-c', {
+      ...Comp,
+      name: 'comp-c',
+      data: () => ({ name: '组件 C' })
+    });
+
+    new Vue({
+      el: '#demo1',
+      data: {
+        currentView: 'comp-a'
+      }
+    });
+
+    new Vue({
+      el: '#demo2',
+      data: {
+        currentView: 'comp-a'
+      }
+    });
+
+  </script>
+</body>
+
+</html>

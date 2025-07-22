@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 内置组件 &lt;transition-group&gt; 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .list-item {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .list-container {
+      margin-top: 20px;
+      min-height: 100px;
+      border: 1px dashed #ccc;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .list-enter-active,
+    .list-leave-active {
+      transition: all 0.5s ease;
+    }
+
+    .list-enter,
+    .list-leave-to {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .list-move {
+      transition: transform 0.5s ease;
+    }
+
+    button {
+      margin-right: 10px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #1890ff;
+      background: #e6f7ff;
+      color: #1890ff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #bae7ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="box">
+    <h2>Vue2 内置组件 <code>&lt;transition-group&gt;</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <code>&lt;transition-group&gt;</code> 是一个内置组件，用于对列表中的元素进行插入、删除和顺序变化的动画。<br>
+        与 <code>&lt;transition&gt;</code> 不同，它会渲染一个真实的 DOM 元素，默认为 <code>&lt;span&gt;</code>，可以通过 <code>tag</code>
+        属性修改。<br>
+        列表中的每个元素都必须有一个唯一的 <code>key</code> 属性。<br>
+        它还提供了一个 <code>v-move</code> 的 class，用于处理元素位置变化时的动画。
+      </p>
+      <pre v-pre><code>&lt;transition-group name="list" tag="p"&gt;
+  &lt;span v-for="item in items" :key="item.id" class="list-item"&gt;
+    {{ item.text }}
+  &lt;/span&gt;
+&lt;/transition-group&gt;</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例：列表的进入/离开 & 排序过渡</h3>
+    <div class="demo">
+      <button @click="add">添加元素</button>
+      <button @click="remove">删除元素</button>
+      <button @click="shuffle">打乱列表</button>
+
+      <transition-group name="list" tag="div" class="list-container">
+        <span v-for="item in items" :key="item" class="list-item">
+          {{ item }}
+        </span>
+      </transition-group>
+    </div>
+    <pre v-pre><code>// Vue 实例
+new Vue({
+  el: '#app',
+  data: {
+    items: [1, 2, 3, 4, 5],
+    nextNum: 6
+  },
+  methods: {
+    randomIndex() {
+      return Math.floor(Math.random() * this.items.length);
+    },
+    add() {
+      this.items.splice(this.randomIndex(), 0, this.nextNum++);
+    },
+    remove() {
+      if (this.items.length > 0) {
+        this.items.splice(this.randomIndex(), 1);
+      }
+    },
+    shuffle() {
+      // 简单的随机排序
+      this.items.sort(() => Math.random() - 0.5);
+    }
+  }
+});</code></pre>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        items: [1, 2, 3, 4, 5],
+        nextNum: 6
+      },
+      methods: {
+        randomIndex() {
+          return Math.floor(Math.random() * this.items.length);
+        },
+        add() {
+          this.items.splice(this.randomIndex(), 0, this.nextNum++);
+        },
+        remove() {
+          if (this.items.length > 0) {
+            this.items.splice(this.randomIndex(), 1);
+          }
+        },
+        shuffle() {
+          // 简单的随机排序
+          this.items.sort(() => Math.random() - 0.5);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

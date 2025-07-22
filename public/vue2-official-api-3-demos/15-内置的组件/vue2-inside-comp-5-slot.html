@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 内置组件 &lt;slot&gt; 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .component-box {
+      border: 1px solid #d3d3d3;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="box">
+    <h2>Vue2 内置组件 <code>&lt;slot&gt;</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <code>&lt;slot&gt;</code> 是 Vue 的一个内置组件，作为内容分发的一个占位符。<br>
+        它允许你以一种可组合的方式来创建组件，父组件可以向子组件的特定位置插入内容。
+      </p>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：基本插槽 (带后备内容)</h3>
+    <div class="tip">
+      <p>子组件使用 <code>&lt;slot&gt;&lt;/slot&gt;</code> 来定义一个插槽，父组件在使用该组件时，标签内的所有内容都会被插入到这个插槽中。如果父组件没有提供内容，则会显示插槽内的后备内容。</p>
+    </div>
+    <basic-layout>
+      <p>这是要插入到布局中的内容。</p>
+    </basic-layout>
+    <basic-layout></basic-layout>
+    <pre><code v-pre>
+&lt;!-- 子组件: basic-layout --&gt;
+&lt;template id="basic-layout-template"&gt;
+  &lt;div class="component-box"&gt;
+    &lt;h4&gt;这是一个布局组件&lt;/h4&gt;
+    &lt;slot&gt;
+      &lt;p style="color: #ff4d4f;"&gt;如果父组件没有提供内容，这里是后备内容。&lt;/p&gt;
+    &lt;/slot&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;!-- 父组件中使用 --&gt;
+&lt;!-- 1. 提供内容 --&gt;
+&lt;basic-layout&gt;
+  &lt;p&gt;这是要插入到布局中的内容。&lt;/p&gt;
+&lt;/basic-layout&gt;
+
+&lt;!-- 2. 不提供内容，显示后备内容 --&gt;
+&lt;basic-layout&gt;&lt;/basic-layout&gt;
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：具名插槽</h3>
+    <div class="tip">
+      <p>使用 <code>name</code> 属性可以定义具名插槽。父组件可以使用 <code>v-slot</code> 指令来为特定的具名插槽提供内容。没有名字的 <code>&lt;slot&gt;</code> 是默认插槽。</p>
+    </div>
+    <named-layout>
+      <template v-slot:header>
+        <h1>这里是页头</h1>
+      </template>
+      <p>一个段落作为主要内容 (默认插槽)。</p>
+      <template v-slot:footer>
+        <p>这里是页脚</p>
+      </template>
+    </named-layout>
+    <pre><code v-pre>
+&lt;!-- 子组件: named-layout --&gt;
+&lt;template id="named-layout-template"&gt;
+  &lt;div class="component-box"&gt;
+    &lt;header&gt;
+      &lt;slot name="header"&gt;&lt;/slot&gt;
+    &lt;/header&gt;
+    &lt;main&gt;
+      &lt;slot&gt;&lt;/slot&gt; &lt;!-- 默认插槽 --&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;
+      &lt;slot name="footer"&gt;&lt;/slot&gt;
+    &lt;/footer&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;!-- 父组件中使用 --&gt;
+&lt;named-layout&gt;
+  &lt;template v-slot:header&gt;
+    &lt;h1&gt;这里是页头&lt;/h1&gt;
+  &lt;/template&gt;
+  
+  &lt;p&gt;一个段落作为主要内容 (默认插槽)。&lt;/p&gt;
+
+  &lt;template v-slot:footer&gt;
+    &lt;p&gt;这里是页脚&lt;/p&gt;
+  &lt;/template&gt;
+&lt;/named-layout&gt;
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例3：作用域插槽</h3>
+    <div class="tip">
+      <p>作用域插槽允许子组件向插槽传递数据。父组件可以通过 <code>v-slot</code> 来接收这些数据。</p>
+    </div>
+    <user-list :users="users">
+      <template v-slot:default="slotProps">
+        <strong>{{ slotProps.user.name }}</strong> - <i>{{ slotProps.user.email }}</i>
+      </template>
+    </user-list>
+    <pre><code v-pre>
+&lt;!-- 子组件: user-list --&gt;
+&lt;template id="user-list-template"&gt;
+  &lt;ul&gt;
+    &lt;li v-for="user in users" :key="user.id"&gt;
+      &lt;!-- 将 user 对象作为 prop 传入插槽 --&gt;
+      &lt;slot :user="user"&gt;
+        {{ user.name }} (默认显示)
+      &lt;/slot&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/template&gt;
+
+&lt;!-- 父组件中使用 --&gt;
+&lt;user-list :users="users"&gt;
+  &lt;template v-slot:default="slotProps"&gt;
+    &lt;strong&gt;{{ slotProps.user.name }}&lt;/strong&gt; - &lt;i&gt;{{ slotProps.user.email }}&lt;/i&gt;
+  &lt;/template&gt;
+&lt;/user-list&gt;
+    </code></pre>
+  </div>
+
+  <!-- Templates for components -->
+  <template id="basic-layout-template">
+    <div class="component-box">
+      <h4>这是一个布局组件</h4>
+      <slot>
+        <p style="color: #ff4d4f;">如果父组件没有提供内容，这里是后备内容。</p>
+      </slot>
+    </div>
+  </template>
+
+  <template id="named-layout-template">
+    <div class="component-box">
+      <header>
+        <slot name="header"></slot>
+      </header>
+      <main>
+        <slot></slot> <!-- 默认插槽 -->
+      </main>
+      <footer>
+        <slot name="footer"></slot>
+      </footer>
+    </div>
+  </template>
+
+  <template id="user-list-template">
+    <ul>
+      <li v-for="user in users" :key="user.id">
+        <!-- We pass the user object to the slot -->
+        <slot :user="user">
+          <!-- Fallback content -->
+          {{ user.name }}
+        </slot>
+      </li>
+    </ul>
+  </template>
+
+  <script>
+    Vue.component('basic-layout', {
+      template: '#basic-layout-template'
+    });
+
+    Vue.component('named-layout', {
+      template: '#named-layout-template'
+    });
+
+    Vue.component('user-list', {
+      props: ['users'],
+      template: '#user-list-template'
+    });
+
+    new Vue({
+      el: '#app',
+      data: {
+        users: [
+          { id: 1, name: '小明', email: 'ming@test.com' },
+          { id: 2, name: '小红', email: 'hong@test.com' },
+          { id: 3, name: '小亮', email: 'liang@test.com' }
+        ]
+      }
+    });
+  </script>
+</body>
+
+</html>

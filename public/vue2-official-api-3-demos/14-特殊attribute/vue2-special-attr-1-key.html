@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 特殊 attribute key 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .demo-area {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #e8e8e8;
+      border-radius: 6px;
+    }
+
+    .demo-item {
+      padding: 10px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 16px;
+    }
+
+    .demo-item input {
+      margin-left: 10px;
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="box">
+    <h2>Vue2 特殊 attribute <code>key</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <code>key</code> 特殊 attribute 主要用在 Vue 的虚拟 DOM 算法中，作为 VNode 的唯一标识。<br>
+        当数据变化，Vue 会根据新旧 VNode 列表的 <code>key</code> 来进行高效的 diff 和 patch 操作。<br>
+        它主要用于以下场景：
+      <ul>
+        <li>在 <code>v-for</code> 中提升列表渲染性能，特别是当列表项的顺序会改变时。</li>
+        <li>强制替换元素/组件，而不是复用它，从而触发其完整的生命周期钩子。</li>
+      </ul>
+      </p>
+    </div>
+
+    <div style="height: 30px; margin-bottom: 30px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例1：不使用 <code>key</code> 的列表渲染</h3>
+    <div class="tip">
+      <p>
+        当列表项被打乱时，Vue 默认会“就地复用” DOM 元素以提高效率。
+        这意味着如果列表项包含有自身状态的子元素（如 <code>&lt;input&gt;</code>），元素的顺序变了，但输入框内的内容却不会跟着变，导致数据与视图不匹配。
+      </p>
+    </div>
+    <div class="demo-area">
+      <div v-for="item in items" class="demo-item">
+        <span>{{ item.text }}</span>
+        <input placeholder="输入一些内容">
+      </div>
+      <button @click="shuffleItems">打乱列表</button>
+    </div>
+    <pre><code v-pre>&lt;div v-for="item in items"&gt;
+  &lt;span&gt;{{ item.text }}&lt;/span&gt;
+  &lt;input placeholder="输入一些内容"&gt;
+&lt;/div&gt;
+&lt;button @click="shuffleItems"&gt;打乱列表&lt;/button&gt;</code></pre>
+
+    <div style="height: 30px; margin-bottom: 30px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例2：使用 <code>key</code> 的列表渲染</h3>
+    <div class="tip">
+      <p>
+        为每个列表项提供一个唯一的 <code>key</code> (例如 <code>:key="item.id"</code>)后，Vue 就能够精确地跟踪每个节点。
+        当列表顺序变化时，Vue 会移动 DOM 元素来匹配顺序的改变，而不是就地复用，这样就能保证每个元素及其内部状态都保持正确。
+      </p>
+    </div>
+    <div class="demo-area">
+      <div v-for="item in items" :key="item.id" class="demo-item">
+        <span>{{ item.text }} (ID: {{ item.id }})</span>
+        <input placeholder="输入一些内容">
+      </div>
+      <button @click="shuffleItems">打乱列表</button>
+    </div>
+    <pre><code v-pre>&lt;div v-for="item in items" :key="item.id"&gt;
+    &lt;span&gt;{{ item.text }} (ID: {{ item.id }})&lt;/span&gt;
+    &lt;input placeholder="输入一些内容"&gt;
+&lt;/div&gt;</code></pre>
+
+    <div style="height: 30px; margin-bottom: 30px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例3：使用 <code>key</code> 强制替换元素</h3>
+    <div class="tip">
+      <p>
+        当一个元素的 <code>key</code> 改变时，Vue 会销毁旧的元素并创建一个新的元素，而不是复用它。
+        这对于需要强制重新渲染组件或重置元素状态的场景非常有用。
+      </p>
+    </div>
+    <div class="demo-area">
+      <label>切换输入框：</label>
+      <input :key="inputKey" placeholder="这是一个输入框">
+      <button @click="changeInputKey">换一个新的输入框</button>
+      <p>当前 Key: {{ inputKey }}</p>
+    </div>
+    <pre><code v-pre>&lt;input :key="inputKey" placeholder="这是一个输入框"&gt;
+&lt;button @click="changeInputKey"&gt;换一个新的输入框&lt;/button&gt;</code></pre>
+
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        items: [
+          { id: 1, text: '苹果' },
+          { id: 2, text: '香蕉' },
+          { id: 3, text: '橙子' }
+        ],
+        inputKey: 1,
+      },
+      methods: {
+        shuffleItems() {
+          // 简单的随机排序
+          this.items.sort(() => Math.random() - 0.5);
+        },
+        changeInputKey() {
+          this.inputKey += 1;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
