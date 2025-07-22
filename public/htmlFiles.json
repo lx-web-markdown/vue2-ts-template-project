@@ -379,6 +379,56 @@
       "filePath": "vue2-official-api-2-demos/12-实例方法-生命周期/vue2-method-lifecycle-4-vm.$destroy.html"
     }
   ],
+  "vue2-official-api-3-demos": [
+    {
+      "fileName": "01_指令-v-text",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-1-v-text.html"
+    },
+    {
+      "fileName": "02_指令-v-html",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-2-v-html.html"
+    },
+    {
+      "fileName": "03_指令-v-show",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-3-v-show.html"
+    },
+    {
+      "fileName": "04_指令-v-if-else",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-4-v-if-else.html"
+    },
+    {
+      "fileName": "05_指令-v-for",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-5-v-for.html"
+    },
+    {
+      "fileName": "06_指令-v-on",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-6-v-on.html"
+    },
+    {
+      "fileName": "07_指令-v-bind",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-7-v-bind.html"
+    },
+    {
+      "fileName": "08_指令-v-model",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-8-v-model.html"
+    },
+    {
+      "fileName": "09_指令-v-slot",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-9-v-slot.html"
+    },
+    {
+      "fileName": "10_指令-v-pre",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-10-v-pre.html"
+    },
+    {
+      "fileName": "11_指令-v-cloak",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-11-v-cloak.html"
+    },
+    {
+      "fileName": "12_指令-v-once",
+      "filePath": "vue2-official-api-2-demos/13-指令/vue2-directive-12-v-once.html"
+    }
+  ],
   "vue2-official-example-demos": [
     {
       "fileName": "01_markdown-editor.html",

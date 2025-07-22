@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 指令 v-once 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .data-demo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="box">
+    <h2>Vue2 指令 <code>v-once</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>v-once</b> 指令用于执行一次性地插值，当数据改变时，插值处的内​​容不会更新。<br>
+        这可以用于优化更新性能，特别是当您需要渲染大量静态内容时。
+      </p>
+      <pre><code>&lt;!-- 单个元素 --&gt;
+&lt;span v-once&gt;这个值不会被改变: {{ msg }}&lt;/span&gt;
+
+&lt;!-- 带有子元素的元素 --&gt;
+&lt;div v-once&gt;
+  &lt;h1&gt;评论&lt;/h1&gt;
+  &lt;p&gt;{{ msg }}&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例：v-once 的使用</h3>
+    <div class="data-demo">
+      <div class="data-box">会更新的消息: {{ message }}</div>
+      <div class="data-box" v-once>不会更新的消息 (v-once): {{ message }}</div>
+      <br>
+      <button @click="updateMessage">更新消息</button>
+    </div>
+    <pre><code v-pre>&lt;div id="app"&gt;
+  &lt;div&gt;会更新的消息: {{ message }}&lt;/div&gt;
+  &lt;div v-once&gt;不会更新的消息 (v-once): {{ message }}&lt;/div&gt;
+  &lt;button @click="updateMessage"&gt;更新消息&lt;/button&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      message: '初始消息'
+    },
+    methods: {
+      updateMessage() {
+        this.message = '已更新消息 - ' + new Date().toLocaleTimeString();
+      }
+    }
+  });
+&lt;/script&gt;
+    </code></pre>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: '初始消息'
+      },
+      methods: {
+        updateMessage() {
+          this.message = '已更新消息 - ' + new Date().toLocaleTimeString();
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

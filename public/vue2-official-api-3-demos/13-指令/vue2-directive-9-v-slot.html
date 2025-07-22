@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 指令 v-slot 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 900px;
+      margin: 20px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      overflow-x: auto;
+    }
+
+    .slot-demo {
+      margin: 20px 0 30px 0;
+    }
+
+    .data-box {
+      padding: 10px 20px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      margin: 10px 0;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .divider {
+      height: 40px;
+      margin-bottom: 40px;
+      border-bottom: #888 2px solid;
+    }
+
+    button {
+      margin-left: 10px;
+      padding: 4px 12px;
+      font-size: 15px;
+      border-radius: 4px;
+      border: 1px solid #1890ff;
+      background: #e6f7ff;
+      color: #1890ff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #bae7ff;
+    }
+
+    .slot-box {
+      border: 1px dashed #aaa;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 4px;
+      background: #fafafa;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h2>Vue2 指令 <code>v-slot</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>v-slot</b> 是 Vue 2.6+ 提供的插槽新语法，用于替代 <code>slot</code> 和 <code>slot-scope</code>，让插槽的使用更统一、灵活。<br>
+        主要用于：<br>
+        - 具名插槽<br>
+        - 作用域插槽（接收子组件传递的数据）<br>
+        <a href="https://v2.cn.vuejs.org/v2/api/#v-slot" target="_blank">官方文档</a>
+      </p>
+      <pre><code>// 基本用法
+< template v-slot:default>插槽内容< /template>
+
+// 作用域插槽
+< template v-slot:default="slotProps">{{ slotProps }}< /template>
+      </code></pre>
+    </div>
+  </div>
+
+  <div id="vslot-demo" class="box">
+    <h3>示例1：基础用法（默认插槽）</h3>
+    <div class="slot-demo">
+      <slot-demo-basic>
+        <div class="slot-box">这是父组件传递的内容</div>
+      </slot-demo-basic>
+    </div>
+    <pre><code v-pre>&lt;slot-demo-basic&gt;
+  &lt;div&gt;这是父组件传递的内容&lt;/div&gt;
+&lt;/slot-demo-basic&gt;
+
+// slot-demo-basic 组件：
+&lt;div&gt;
+  &lt;slot&gt;默认内容&lt;/slot&gt;
+&lt;/div&gt;
+      </code></pre>
+    <div class="divider"></div>
+
+    <h3>示例2：具名插槽</h3>
+    <div class="slot-demo">
+      <slot-demo-named>
+        <template v-slot:header>
+          <div class="slot-box">自定义头部</div>
+        </template>
+        <template v-slot:footer>
+          <div class="slot-box">自定义底部</div>
+        </template>
+      </slot-demo-named>
+    </div>
+    <pre><code v-pre>&lt;slot-demo-named&gt;
+  &lt;template v-slot:header&gt;自定义头部&lt;/template&gt;
+  &lt;template v-slot:footer&gt;自定义底部&lt;/template&gt;
+&lt;/slot-demo-named&gt;
+
+// slot-demo-named 组件：
+&lt;div&gt;
+  &lt;slot name="header"&gt;默认头部&lt;/slot&gt;
+  &lt;div&gt;内容区&lt;/div&gt;
+  &lt;slot name="footer"&gt;默认底部&lt;/slot&gt;
+&lt;/div&gt;
+      </code></pre>
+    <div class="divider"></div>
+
+    <h3>示例3：作用域插槽（v-slot 传递数据）</h3>
+    <div class="slot-demo">
+      <slot-demo-scope :user="user">
+        <template v-slot:default="slotProps">
+          <div class="slot-box">
+            <span>插槽接收到：姓名 {{ slotProps.user.name }}，年龄 {{ slotProps.user.age }}</span>
+            <button @click="changeUser">切换用户</button>
+          </div>
+        </template>
+      </slot-demo-scope>
+    </div>
+    <pre><code v-pre>&lt;slot-demo-scope :user="user"&gt;
+  &lt;template v-slot:default="slotProps"&gt;
+    姓名：&#123;&#123; slotProps.user.name &#125;&#125;，年龄：&#123;&#123; slotProps.user.age &#125;&#125;
+  &lt;/template&gt;
+&lt;/slot-demo-scope&gt;
+
+// slot-demo-scope 组件：
+&lt;div&gt;
+  &lt;slot :user="user"&gt;&lt;/slot&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+
+  <script>
+    // 基础插槽组件
+    Vue.component('slot-demo-basic', {
+      template: `<div style="border:1px solid #eee;padding:10px;border-radius:4px;">\
+        <slot>默认内容</slot>\
+      </div>`
+    });
+    // 具名插槽组件
+    Vue.component('slot-demo-named', {
+      template: `<div style="border:1px solid #eee;padding:10px;border-radius:4px;">\
+        <header><slot name=\"header\">默认头部</slot></header>\
+        <div>内容区</div>\
+        <footer><slot name=\"footer\">默认底部</slot></footer>\
+      </div>`
+    });
+    // 作用域插槽组件
+    Vue.component('slot-demo-scope', {
+      props: ['user'],
+      template: `<div style="border:1px solid #eee;padding:10px;border-radius:4px;">\
+        <slot :user="user"></slot>\
+      </div>`
+    });
+    new Vue({
+      el: '#vslot-demo',
+      data() {
+        return {
+          user: { name: '小明', age: 18 }
+        }
+      },
+      methods: {
+        changeUser() {
+          this.user = this.user.name === '小明'
+            ? { name: '小红', age: 20 }
+            : { name: '小明', age: 18 };
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

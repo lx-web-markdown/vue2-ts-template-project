@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 指令 v-cloak 示例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
+    }
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .tip strong {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    /* v-cloak 样式 */
+    [v-cloak] {
+      display: none;
+    }
+
+    .demo-box {
+      margin: 20px 0;
+      padding: 16px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 6px;
+      color: #389e0d;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h2>Vue2 指令 <code>v-cloak</code> 示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>v-cloak</b> 指令用于防止页面加载时未编译的 Mustache 标签（如 <code>{{ message }}</code>）闪现。<br>
+        通常配合 CSS <code>[v-cloak] { display: none; }</code> 使用，直到 Vue 实例编译完成后自动移除 <code>v-cloak</code> 属性。
+      </p>
+      <pre><code>&lt;div v-cloak&gt;{{ message }}&lt;/div&gt;
+&lt;style&gt;
+  [v-cloak] { display: none; }
+&lt;/style&gt;
+      </code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例：防止 Mustache 标签闪现</h3>
+    <div id="app">
+      <div class="demo-box" v-cloak>
+        {{ message }}
+      </div>
+    </div>
+    <pre><code v-pre>&lt;div id="app"&gt;
+  &lt;div v-cloak&gt;
+    {{ message }}
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello v-cloak!'
+    }
+  });
+&lt;/script&gt;
+    </code></pre>
+
+    <div class="tip">
+      <p>
+        - 当 Vue 未加载完成时，<code>v-cloak</code> 属性存在，内容被隐藏。<br>
+        - Vue 加载并编译后，<code>v-cloak</code> 属性被移除，内容显示。
+      </p>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello v-cloak!'
+      }
+    });
+  </script>
+</body>
+
+</html>
