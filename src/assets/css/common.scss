@@ -5,9 +5,16 @@
   box-sizing: border-box;
 }
 
+li {
+  /* 默认值：outside，确保有足够空间显示符号 */
+  list-style-position: inside; /* 将项目符号放在内容流内部 */
+}
+
 // 文字溢出省略号
 .text-ellipsis-2 {
   overflow: hidden;
+  /* 标准属性，增强兼容性 */
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
   display: -webkit-box;

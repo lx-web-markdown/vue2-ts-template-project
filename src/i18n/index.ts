@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 //
-// import { getCurrentLocaleKey } from '@/utils/storage'
-//
 import myZh from './lang/zh'
 import myEn from './lang/en'
 import myJa from './lang/ja'
+import myKo from './lang/ko'
 
 // i18n注册
 Vue.use(VueI18n)
@@ -14,7 +13,8 @@ Vue.use(VueI18n)
 const messages = {
   zh: myZh,
   en: myEn,
-  ja: myJa
+  ja: myJa,
+  ko: myKo
 }
 
 // ---------------------------------------
