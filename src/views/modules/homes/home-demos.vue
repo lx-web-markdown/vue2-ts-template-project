@@ -11,18 +11,26 @@
         <router-link to="/i18n-demo" class="nav-card">
           <div class="nav-icon">🌐</div>
           <div class="nav-text">
-            <h3>国际化设置</h3>
-            <p>i18n 多语言配置</p>
+            <p class="nav-text-title">国际化设置</p>
+            <p class="nav-text-desc">i18n 多语言配置</p>
           </div>
         </router-link>
 
-        <!-- <router-link to="/vue2-offical-keyCodes" class="nav-card">
+        <router-link to="/dark-mode-demo" class="nav-card">
           <div class="nav-icon">⚙️</div>
           <div class="nav-text">
-            <h3>Vue2 API 配置</h3>
-            <p>全局配置 keyCodes</p>
+            <p class="nav-text-title">Vue2 暗黑配置</p>
+            <p class="nav-text-desc">全局配置 keyCodes</p>
           </div>
-        </router-link> -->
+        </router-link>
+
+        <router-link to="/scss-constant-demo" class="nav-card">
+          <div class="nav-icon">🐯</div>
+          <div class="nav-text">
+            <p class="nav-text-title">Scss常量</p>
+            <p class="nav-text-desc">Scss常量如何使用</p>
+          </div>
+        </router-link>
       </div>
 
       <!-- 演示文件列表 -->
@@ -153,17 +161,17 @@ export default Vue.extend({
     }
 
     .nav-text {
-      h3 {
-        margin: 0 0 0.25rem 0;
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #2c3e50;
+      &-title {
+        color: #000;
+        font-weight: 900;
+        font-size: 20px;
+        text-align: left;
       }
 
-      p {
-        margin: 0;
-        font-size: 0.9rem;
+      &-desc {
+        font-size: 16px;
         color: #7f8c8d;
+        text-align: left;
       }
     }
   }
