@@ -11,6 +11,10 @@ import '@/server/mock/mock'
 import '@/plugins/element-ui'
 import '@/utils/vue-config-setting'
 
+// 暗黑
+import DarkModeMixin from './mixins/darkMode'
+Vue.mixin(DarkModeMixin)
+
 new Vue({
   router,
   store,

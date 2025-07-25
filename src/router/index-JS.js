@@ -59,7 +59,7 @@ const routes = [
   // NotFound
   {
     path: '*',
-    component: () => import('@/views/modules/errors/NotFound.vue')
+    component: () => import('@/views/modules/404/NotFound.vue')
   }
 ]
 

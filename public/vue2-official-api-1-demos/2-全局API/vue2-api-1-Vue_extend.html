@@ -3,64 +3,160 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>跳转到 vue2-offical-vue-extend</title>
-  <!-- 引入 Vue 和 vue-router（如果你的项目没全局引入的话） -->
+  <title>Vue2 Vue.extend 用法示例</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue-router@3/dist/vue-router.js"></script>
-
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f7f8fa;
+      font-family: Arial, sans-serif;
+      margin: 30px;
     }
-    #app {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 800px;
+      margin: 10px auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      background: #fff;
     }
-    button {
-      padding: 12px 32px;
-      font-size: 18px;
-      border: none;
-      border-radius: 6px;
-      background: #42b983;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(66,185,131,0.15);
-      transition: background 0.2s;
+
+    .tip {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
     }
-    button:hover {
-      background: #36996b;
+
+    .tip strong {
+      font-size: 20px;
+      color: #000;
+    }
+
+    .tip p {
+      font-size: 16px;
+      color: #000;
+    }
+
+    pre {
+      border: #1890ff 1px solid;
+      background: #f0f7ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .mount-point {
+      margin-top: 50px;
+      border: 1px dashed #ccc;
+      padding: 10px;
+      margin: 10px 0;
     }
   </style>
 </head>
 
 <body>
-  <div id="app">
-    <button @click="goToExtend">跳转到 vue2-offical-vue-extend</button>
+  <div id="vue-extend-demo" class="box">
+    <h2>Vue2 Vue.extend 用法示例</h2>
+    <div class="tip">
+      <strong>介绍：</strong>
+      <p>
+        <b>Vue.extend</b> 用于创建一个“组件构造器”，可以用来动态生成组件实例。<br>
+        常用于：<br>
+        1. 动态挂载组件到 DOM 上<br>
+        2. 需要手动控制组件生命周期的场景<br>
+        <a href="https://v2.cn.vuejs.org/v2/api/#Vue-extend" target="_blank">官方文档</a>
+      </p>
+      <pre><code>// 创建组件构造器
+const MyComponent = Vue.extend({
+  template: '< div>内容< /div>',
+  props: ['name']
+})
+
+// 创建实例
+const instance = new MyComponent({
+  propsData: { name: '张三' }
+})
+
+// 挂载到 DOM
+instance.$mount('#mount-point')
+      </code></pre>
+    </div>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <h3>示例：动态创建并挂载组件</h3>
+    <div id="mount-point" class="mount-point"></div>
+    <button id="destroy-btn">销毁动态组件</button>
+    <pre><code>// 1. 创建组件构造器
+const MyComponent = Vue.extend({
+  render(h) {
+    return h(
+      'div',
+      { 
+        attrs: { id: 'mount-point' },
+        style: { color: 'blue', fontSize: '20px', marginTop: '10px' } 
+      },
+      `我是Vue.extend新建的组件！！！动态组件内容: Hello ${this.name}!`
+    )
+  },
+  props: ['name']
+})
+
+// 2. 创建实例
+const instance = new MyComponent({
+  propsData: { name: 'Vue Developer' }
+})
+
+// 3. 挂载到 DOM
+instance.$mount('#mount-point')
+
+// 4. 销毁组件
+instance.$destroy()
+    </code></pre>
+
+    <div style="height: 50px; margin-bottom: 50px; border-bottom: #888 2px solid;"></div>
+
+    <div class="tip">
+      <strong>注意：</strong>
+      <p>
+        1. <b>Vue.extend</b> 返回的是一个组件构造器，不是组件实例。<br>
+        2. 通过 <b>new</b> 关键字创建实例后，可用 <b>propsData</b> 传递 props。<br>
+        3. <b>instance.$mount(el)</b> 可将组件挂载到指定 DOM 元素。<br>
+        4. 需要手动调用 <b>instance.$destroy()</b> 进行销毁和资源释放。
+      </p>
+    </div>
   </div>
+
   <script>
-    // 这里只做跳转演示，假设你的路由已经配置好
-    new Vue({
-      el: '#app',
-      methods: {
-        goToExtend() {
-          // 如果页面有 vue-router 实例
-          if (this.$router) {
-            this.$router.push('/vue2-offical-vue-extend');
-          } else {
-            // 纯 HTML 文件用 window.location
-            window.location.href = '/vue2-offical-vue-extend';
-          }
-        }
+    // 1. 创建组件构造器
+    const MyComponent = Vue.extend({
+      render(h) {
+        return h(
+          'div',
+          { 
+            attrs: { id: 'mount-point' },
+            style: { color: 'blue', fontSize: '20px', marginTop: '10px' }
+          },
+          `我是Vue.extend新建的组件！！！动态组件内容: Hello ${this.name}!`
+        )
+      },
+      props: ['name']
+    });
+    // 2. 创建实例
+    const instance = new MyComponent({
+      propsData: { name: 'Vue Developer' }
+    });
+    // 3. 挂载到 DOM
+    instance.$mount('#mount-point');
+    // 4. 销毁按钮
+    document.getElementById('destroy-btn').onclick = function () {
+      console.log('=============> destroy');
+      instance.$destroy();
+      var mountPoint = document.getElementById('mount-point');
+      if (mountPoint) {
+        mountPoint.innerHTML = '<span style="color:#888">组件已销毁</span>';
       }
-    })
+    };
   </script>
 </body>
 

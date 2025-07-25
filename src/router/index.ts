@@ -3,7 +3,6 @@ import VueRouter, { RouteConfig } from 'vue-router'
 // routes
 import routerHome from './router-home'
 import routerDemos from './router-demos'
-import routerOfficalApiDemos from './router-offical-api-demos'
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(
@@ -51,18 +50,18 @@ const routes: Array<RouteConfig> = [
     name: 'AppHome',
     component: () => import('@/views/layouts/AppHome.vue'),
     children: [...routerHome]
-  }
+  },
   // NotFound
-  // {
-  //   path: '*',
-  //   component: () => import('@/views/modules/errors/NotFound.vue')
-  // }
+  {
+    path: '*',
+    component: () => import('@/views/modules/404/NotFound.vue')
+  }
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [...routes, ...routerDemos, ...routerOfficalApiDemos]
+  routes: [...routes, ...routerDemos]
 })
 
 export default router

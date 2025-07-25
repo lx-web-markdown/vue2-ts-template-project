@@ -36,7 +36,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "types/**/*.d.ts", 
+    "types/**/*.d.ts", "src/mixins/darkMode.js",
   ],
   "exclude": [
     "node_modules"
