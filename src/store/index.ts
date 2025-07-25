@@ -1,12 +1,25 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { StoreOptions } from 'vuex'
+import actions from './actions'
+import mutations from './mutations'
+import cart from './modules/cart'
+import products from './modules/product'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export interface RootState {
+  user?: any
+}
+
+const storeOptions: StoreOptions<RootState> = {
   state: {},
   getters: {},
-  mutations: {},
-  actions: {},
-  modules: {}
-})
+  actions,
+  mutations,
+  modules: {
+    cart,
+    products
+  }
+}
+
+export default new Vuex.Store<RootState>(storeOptions)

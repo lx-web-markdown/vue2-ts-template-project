@@ -8,29 +8,15 @@
     <div class="content">
       <!-- 快速导航 -->
       <div class="quick-nav">
-        <router-link to="/i18n-demo" class="nav-card">
-          <div class="nav-icon">🌐</div>
-          <div class="nav-text">
-            <p class="nav-text-title">国际化设置</p>
-            <p class="nav-text-desc">i18n 多语言配置</p>
-          </div>
-        </router-link>
-
-        <router-link to="/dark-mode-demo" class="nav-card">
-          <div class="nav-icon">⚙️</div>
-          <div class="nav-text">
-            <p class="nav-text-title">Vue2 暗黑配置</p>
-            <p class="nav-text-desc">全局配置 keyCodes</p>
-          </div>
-        </router-link>
-
-        <router-link to="/scss-constant-demo" class="nav-card">
-          <div class="nav-icon">🐯</div>
-          <div class="nav-text">
-            <p class="nav-text-title">Scss常量</p>
-            <p class="nav-text-desc">Scss常量如何使用</p>
-          </div>
-        </router-link>
+        <div class="nav-row" v-for="(row, rowIdx) in navRows" :key="rowIdx">
+          <router-link v-for="nav in row" :key="nav.to" :to="nav.to" class="nav-card">
+            <div class="nav-icon">{{ nav.icon }}</div>
+            <div class="nav-text">
+              <p class="nav-text-title">{{ nav.title }}</p>
+              <p class="nav-text-desc">{{ nav.desc }}</p>
+            </div>
+          </router-link>
+        </div>
       </div>
 
       <!-- 演示文件列表 -->
@@ -73,7 +59,56 @@ export default Vue.extend({
   name: 'DemoListPage',
   data() {
     return {
-      htmlFilesList: {} as HtmlFilesList
+      htmlFilesList: {} as HtmlFilesList,
+      navList: [
+        {
+          to: '/i18n-demo',
+          icon: '🌐',
+          title: '国际化设置',
+          desc: 'i18n 多语言配置'
+        },
+        {
+          to: '/dark-mode-demo',
+          icon: '🐶',
+          title: 'Vue2 暗黑配置',
+          desc: '全局配置 keyCodes'
+        },
+        {
+          to: '/scss-constant-demo',
+          icon: '🐯',
+          title: 'Scss常量',
+          desc: 'Scss常量如何使用'
+        },
+        {
+          to: '/event-bus-demo',
+          icon: '📢',
+          title: 'Event Bus 示例',
+          desc: '事件总线通信方案'
+        },
+        {
+          to: '/vue-router-demo',
+          icon: '🦌',
+          title: 'Vue Router 示例',
+          desc: 'Vue2路由'
+        },
+        {
+          to: '/vuex-demo',
+          icon: '🦌',
+          title: 'VueX 示例',
+          desc: 'VueX使用'
+        }
+      ]
+    }
+  },
+  computed: {
+    navRows(): Array<Array<any>> {
+      // 每行最多3个
+      const chunkSize = 3
+      const rows = []
+      for (let i = 0; i < this.navList.length; i += chunkSize) {
+        rows.push(this.navList.slice(i, i + chunkSize))
+      }
+      return rows
     }
   },
   mounted() {
@@ -133,10 +168,17 @@ export default Vue.extend({
 }
 
 .quick-nav {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 3rem;
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 
   .nav-card {
     display: flex;
