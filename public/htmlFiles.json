@@ -19,6 +19,26 @@
     {
       "fileName": "vue2-axios-post.html",
       "filePath": "vue2-study-demos/vue2-axios-post.html"
+    },
+    {
+      "fileName": "Flex-1-所有示例.html",
+      "filePath": "vue2-study-demos/flex-demos/flex-1-all.html"
+    },
+    {
+      "fileName": "Flex-2-流式布局.html",
+      "filePath": "vue2-study-demos/flex-demos/flex-2-flow-layout.html"
+    },
+    {
+      "fileName": "Grid-1-所有示例.html",
+      "filePath": "vue2-study-demos/grid-demos/grid-1-all.html"
+    },
+    {
+      "fileName": "Position-1-定位相关所有示例.html",
+      "filePath": "vue2-study-demos/position-demos/position-1-all.html"
+    },
+    {
+      "fileName": "Float-1-浮动相关所有示例.html",
+      "filePath": "vue2-study-demos/float-demos/float-1-all.html"
     }
   ],
   "vue2-official-course-demos": [

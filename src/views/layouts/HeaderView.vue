@@ -24,20 +24,16 @@ export default Vue.extend({
     return {
       dataList: [
         {
-          name: 'demos',
+          name: '首页',
           path: '/demos'
         },
         {
-          name: 'login',
-          path: '/login'
+          name: '设置',
+          path: '/setting'
         },
         {
-          name: 'about',
+          name: '关于',
           path: '/about'
-        },
-        {
-          name: '404',
-          path: '/404'
         }
       ]
     }
@@ -88,6 +84,7 @@ export default Vue.extend({
       text-align: center;
       color: #222;
       font-size: 16px;
+      cursor: pointer;
     }
   }
 }

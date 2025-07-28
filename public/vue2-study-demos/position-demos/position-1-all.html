@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS定位布局综合示例</title>
+  <style>
+    /* 基础样式 */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 2000px;
+      /* 为了演示fixed和sticky */
+    }
+
+    h2 {
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .example {
+      margin-bottom: 40px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .container {
+      border: 2px dashed #aaa;
+      padding: 20px;
+      margin: 20px 0;
+      background-color: #fff;
+      height: 300px;
+      overflow: auto;
+      /* 为了演示sticky */
+    }
+
+    .item {
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .static-item {
+      background-color: #4CAF50;
+      /* 绿色 */
+    }
+
+    .relative-item {
+      background-color: #2196F3;
+      /* 蓝色 */
+    }
+
+    .absolute-item {
+      background-color: #FF9800;
+      /* 橙色 */
+    }
+
+    .fixed-item {
+      background-color: #9C27B0;
+      /* 紫色 */
+    }
+
+    .sticky-item {
+      background-color: #F44336;
+      /* 红色 */
+    }
+
+    .normal-item {
+      background-color: #607D8B;
+      /* 蓝灰色 */
+    }
+
+    .position-marker {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    .scroll-content {
+      height: 800px;
+      padding: 20px;
+      background: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
+    }
+
+    .controls {
+      margin: 15px 0;
+      padding: 10px;
+      background-color: #eee;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>CSS定位布局综合示例</h1>
+
+  <!-- 1. static定位 -->
+  <div class="example">
+    <h2>1. static定位（默认）</h2>
+    <div class="controls">
+      <p>static是默认定位方式，元素按照正常文档流排列，top/right/bottom/left/z-index属性无效</p>
+    </div>
+    <div class="container">
+      <div class="position-marker">容器</div>
+      <div class="item static-item">static定位元素1</div>
+      <div class="item static-item" style="position: static; top: 50px; left: 50px;">
+        尝试设置top/left无效的static元素
+      </div>
+      <div class="item normal-item">普通元素1</div>
+      <div class="item normal-item">普通元素2</div>
+    </div>
+  </div>
+
+  <!-- 2. relative定位 -->
+  <div class="example">
+    <h2>2. relative定位（相对定位）</h2>
+    <div class="controls">
+      <p>relative定位的元素仍在文档流中占据位置，但可以通过top/right/bottom/left相对于其正常位置进行偏移</p>
+    </div>
+    <div class="container">
+      <div class="position-marker">容器</div>
+      <div class="item normal-item">普通元素1</div>
+      <div class="item relative-item" style="position: relative; top: 20px; left: 40px;">
+        relative定位元素<br>(top:20px, left:40px)
+      </div>
+      <div class="item normal-item">普通元素2</div>
+      <div class="item normal-item">普通元素3</div>
+    </div>
+  </div>
+
+  <!-- 3. absolute定位 -->
+  <div class="example">
+    <h2>3. absolute定位（绝对定位）</h2>
+    <div class="controls">
+      <p>absolute定位的元素脱离文档流，相对于最近的非static定位祖先元素定位。如果没有则相对于初始包含块（通常是html元素）</p>
+    </div>
+    <div class="container">
+      <div class="position-marker">容器（position: relative）</div>
+      <div class="item normal-item">普通元素1</div>
+      <div class="item absolute-item" style="position: absolute; top: 50px; right: 30px;">
+        absolute定位元素<br>(top:50px, right:30px)
+      </div>
+      <div class="item normal-item">普通元素2</div>
+      <div class="item normal-item">普通元素3</div>
+    </div>
+  </div>
+
+  <!-- 4. fixed定位 -->
+  <div class="example">
+    <h2>4. fixed定位（固定定位）</h2>
+    <div class="controls">
+      <p>fixed定位的元素脱离文档流，相对于浏览器窗口定位，不随页面滚动而移动</p>
+      <p>注意：右下角的紫色元素是fixed定位的</p>
+    </div>
+    <div class="container">
+      <div class="position-marker">容器</div>
+      <div class="item normal-item">普通元素1</div>
+      <div class="item normal-item">普通元素2</div>
+      <div class="item normal-item">普通元素3</div>
+    </div>
+    <div class="item fixed-item" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+      fixed定位元素<br>(bottom:20px, right:20px)<br>滚动页面我不会动
+    </div>
+  </div>
+
+  <!-- 5. sticky定位 -->
+  <div class="example">
+    <h2>5. sticky定位（粘性定位）</h2>
+    <div class="controls">
+      <p>sticky定位的元素在跨越特定阈值前为相对定位，之后为固定定位。常用于导航栏。</p>
+      <p>请滚动下面的容器查看效果</p>
+    </div>
+    <div class="container">
+      <div class="position-marker">可滚动容器</div>
+      <div class="item normal-item">普通元素1</div>
+      <div class="item normal-item">普通元素2</div>
+      <div class="item sticky-item" style="position: sticky; top: 10px;">
+        sticky定位元素<br>(top:10px)
+      </div>
+      <div class="scroll-content">
+        <p>滚动内容区域...</p>
+        <p>当滚动到sticky元素到达top:10px的位置时，它会固定在那个位置</p>
+        <p>继续滚动...</p>
+        <p>更多内容...</p>
+        <p>更多内容...</p>
+        <p>更多内容...</p>
+        <p>更多内容...</p>
+      </div>
+      <div class="item normal-item">普通元素3</div>
+    </div>
+  </div>
+
+  <!-- 6. 子绝父相 -->
+  <div class="example">
+    <h2>6. "子绝父相"模式</h2>
+    <div class="controls">
+      <p>常见模式：父元素设置relative定位（不偏移），子元素设置absolute定位相对于父元素定位</p>
+    </div>
+    <div class="container" style="position: relative;">
+      <div class="position-marker">父容器（position: relative）</div>
+      <div class="item normal-item">普通元素1</div>
+      <div class="item absolute-item" style="position: absolute; bottom: 20px; left: 20px;">
+        绝对定位子元素<br>(bottom:20px, left:20px)
+      </div>
+      <div class="item absolute-item"
+        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        居中绝对定位元素
+      </div>
+      <div class="item normal-item">普通元素2</div>
+    </div>
+  </div>
+
+  <!-- 7. 定位层级(z-index) -->
+  <div class="example">
+    <h2>7. 定位层级(z-index)</h2>
+    <div class="controls">
+      <p>z-index控制定位元素的堆叠顺序，数值大的在上层。只对定位元素(position非static)有效</p>
+    </div>
+    <div class="container" style="position: relative;">
+      <div class="position-marker">容器</div>
+      <div class="item relative-item"
+        style="position: relative; width: 100px; height: 100px; top: 0; left: 0; z-index: 1;">
+        z-index: 1
+      </div>
+      <div class="item absolute-item"
+        style="position: absolute; width: 80px; height: 80px; top: 30px; left: 30px; z-index: 3;">
+        z-index: 3
+      </div>
+      <div class="item fixed-item"
+        style="position: absolute; width: 80px; height: 80px; top: 60px; left: 60px; z-index: 2;">
+        z-index: 2
+      </div>
+      <div class="item static-item" style="width: 100px; height: 100px; margin-top: 90px; z-index: 999;">
+        这个static元素z-index无效
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. 综合示例 -->
+  <div class="example">
+    <h2>8. 综合示例</h2>
+    <div class="controls">
+      <p>各种定位方式的综合应用</p>
+    </div>
+    <div class="container" style="position: relative; height: 400px;">
+      <div class="position-marker">容器</div>
+
+      <!-- 背景层 -->
+      <div class="item static-item" style="width: 100%; height: 100%; opacity: 0.2;">
+        static背景层
+      </div>
+
+      <!-- relative层 -->
+      <div class="item relative-item" style="position: relative; top: 20px; left: 30px; width: 80%; height: 80%;">
+        relative层 (top:20px, left:30px)
+
+        <!-- absolute层 -->
+        <div class="item absolute-item" style="position: absolute; bottom: 20px; right: 20px; width: 50%; height: 30%;">
+          absolute子元素 (bottom:20px, right:20px)
+        </div>
+      </div>
+
+      <!-- sticky层 -->
+      <div class="item sticky-item"
+        style="position: sticky; bottom: 20px; width: 100px; height: 50px; margin-left: auto; opacity: 0.8;">
+        sticky元素 (bottom:20px)
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

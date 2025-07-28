@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS浮动布局综合示例</title>
+  <style>
+    /* 基础样式 */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .example {
+      margin-bottom: 40px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .container {
+      border: 2px dashed #aaa;
+      padding: 20px;
+      margin: 20px 0;
+      background-color: #fff;
+    }
+
+    .item {
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      margin: 5px;
+    }
+
+    .float-left {
+      background-color: #4CAF50;
+      /* 绿色 */
+    }
+
+    .float-right {
+      background-color: #2196F3;
+      /* 蓝色 */
+    }
+
+    .normal-item {
+      background-color: #607D8B;
+      /* 蓝灰色 */
+    }
+
+    .clear-item {
+      background-color: #FF9800;
+      /* 橙色 */
+    }
+
+    .position-marker {
+      float: right;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    .image-placeholder {
+      width: 100px;
+      height: 100px;
+      background-color: #9C27B0;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .text-content {
+      text-align: justify;
+    }
+
+    /* 浮动相关样式 */
+    .clearfix::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .float-layout {
+      width: 100%;
+    }
+
+    .float-sidebar {
+      width: 25%;
+    }
+
+    .float-main {
+      width: 70%;
+    }
+
+    .news-item {
+      width: 30%;
+      margin-bottom: 20px;
+    }
+
+    .gallery-item {
+      width: 23%;
+      margin: 1%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>CSS浮动布局综合示例</h1>
+
+  <!-- 1. 基本浮动 -->
+  <div class="example">
+    <h2>1. 基本浮动</h2>
+    <div class="container">
+      <div class="position-marker">容器</div>
+      <div class="item float-left" style="float: left; width: 100px; height: 80px;">
+        左浮动元素
+      </div>
+      <div class="item float-right" style="float: right; width: 100px; height: 80px;">
+        右浮动元素
+      </div>
+      <div class="item normal-item">
+        普通文本内容。浮动元素会脱离文档流，其他内容会围绕浮动元素排列。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 图文混排 -->
+  <div class="example">
+    <h2>2. 图文混排</h2>
+    <div class="container">
+      <div class="position-marker">容器</div>
+      <div class="image-placeholder" style="float: left; margin-right: 15px;">
+        图片
+      </div>
+      <div class="text-content">
+        <h3>文章标题</h3>
+        <p>这是围绕浮动图片排列的文本内容。浮动图片使文本能够自然地环绕在图片周围，这是网页排版中常见的技术。Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut
+          eleifend nibh porttitor.</p>
+        <p>Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum
+          feugiat nisl ut dapibus. Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 清除浮动 -->
+  <div class="example">
+    <h2>3. 清除浮动</h2>
+    <div class="container">
+      <div class="position-marker">容器</div>
+      <div class="item float-left" style="float: left; width: 100px; height: 100px;">
+        浮动元素1
+      </div>
+      <div class="item float-left" style="float: left; width: 100px; height: 100px;">
+        浮动元素2
+      </div>
+      <div class="item clear-item" style="clear: both;">
+        清除浮动的元素 (clear: both)
+      </div>
+      <div class="item normal-item">
+        这个元素在清除浮动元素下方
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. clearfix技巧 -->
+  <div class="example">
+    <h2>4. clearfix技巧</h2>
+    <div class="container clearfix">
+      <div class="position-marker">容器 (clearfix)</div>
+      <div class="item float-left" style="float: left; width: 100px; height: 100px;">
+        浮动元素1
+      </div>
+      <div class="item float-left" style="float: left; width: 100px; height: 100px;">
+        浮动元素2
+      </div>
+      <!-- 使用clearfix类而不是额外元素来清除浮动 -->
+    </div>
+    <div class="item normal-item" style="margin-top: 20px;">
+      容器使用clearfix后，后续元素正常排列
+    </div>
+  </div>
+
+  <!-- 5. 多列布局 -->
+  <div class="example">
+    <h2>5. 多列布局</h2>
+    <div class="container clearfix">
+      <div class="position-marker">容器</div>
+      <div class="item float-left" style="width: 30%; height: 150px;">
+        左列 (30%)
+      </div>
+      <div class="item float-left" style="width: 40%; height: 150px; margin-left: 5%;">
+        中列 (40%)
+      </div>
+      <div class="item float-left" style="width: 20%; height: 150px; margin-left: 5%;">
+        右列 (20%)
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 浮动导航栏 -->
+  <div class="example">
+    <h2>6. 浮动导航栏</h2>
+    <div class="container clearfix" style="background-color: #333; padding: 0;">
+      <div class="position-marker" style="color: white;">导航栏</div>
+      <div class="item float-left"
+        style="float: left; width: auto; padding: 15px 20px; margin: 0; background-color: #333; color: white; border-radius: 0;">
+        首页
+      </div>
+      <div class="item float-left"
+        style="float: left; width: auto; padding: 15px 20px; margin: 0; background-color: #333; color: white; border-radius: 0;">
+        产品
+      </div>
+      <div class="item float-left"
+        style="float: left; width: auto; padding: 15px 20px; margin: 0; background-color: #333; color: white; border-radius: 0;">
+        服务
+      </div>
+      <div class="item float-right"
+        style="float: right; width: auto; padding: 15px 20px; margin: 0; background-color: #4CAF50; color: white; border-radius: 0;">
+        登录
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 新闻列表 -->
+  <div class="example">
+    <h2>7. 新闻列表</h2>
+    <div class="container clearfix">
+      <div class="position-marker">新闻列表</div>
+      <div class="item float-left news-item">
+        <h3>新闻标题1</h3>
+        <p>新闻内容摘要...</p>
+      </div>
+      <div class="item float-left news-item">
+        <h3>新闻标题2</h3>
+        <p>新闻内容摘要...</p>
+      </div>
+      <div class="item float-left news-item">
+        <h3>新闻标题3</h3>
+        <p>新闻内容摘要...</p>
+      </div>
+      <div class="item float-left news-item">
+        <h3>新闻标题4</h3>
+        <p>新闻内容摘要...</p>
+      </div>
+      <div class="item float-left news-item">
+        <h3>新闻标题5</h3>
+        <p>新闻内容摘要...</p>
+      </div>
+      <div class="item float-left news-item">
+        <h3>新闻标题6</h3>
+        <p>新闻内容摘要...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. 画廊布局 -->
+  <div class="example">
+    <h2>8. 画廊布局</h2>
+    <div class="container clearfix">
+      <div class="position-marker">画廊</div>
+      <div class="item float-left gallery-item">
+        <div class="image-placeholder">图片1</div>
+      </div>
+      <div class="item float-left gallery-item">
+        <div class="image-placeholder">图片2</div>
+      </div>
+      <div class="item float-left gallery-item">
+        <div class="image-placeholder">图片3</div>
+      </div>
+      <div class="item float-left gallery-item">
+        <div class="image-placeholder">图片4</div>
+      </div>
+      <div class="item float-left gallery-item">
+        <div class="image-placeholder">图片5</div>
+      </div>
+      <div class="item float-left gallery-item">
+        <div class="image-placeholder">图片6</div>
+      </div>
+      <div class="item float-left gallery-item">
+        <div class="image-placeholder">图片7</div>
+      </div>
+      <div class="item float-left gallery-item">
+        <div class="image-placeholder">图片8</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. 两栏布局 -->
+  <div class="example">
+    <h2>9. 两栏布局</h2>
+    <div class="container clearfix">
+      <div class="position-marker">两栏布局</div>
+      <div class="item float-left float-sidebar" style="height: 200px;">
+        侧边栏 (25%)
+      </div>
+      <div class="item float-right float-main" style="height: 200px;">
+        主内容区 (70%)
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. 浮动的问题与解决方案 -->
+  <div class="example">
+    <h2>10. 浮动的问题与解决方案</h2>
+
+    <h3>10.1 浮动导致父元素高度塌陷</h3>
+    <div class="container" style="background-color: #ffebee;">
+      <div class="position-marker">问题容器</div>
+      <div class="item float-left" style="width: 100px; height: 100px;">
+        浮动元素
+      </div>
+      <div class="item float-left" style="width: 100px; height: 100px;">
+        浮动元素
+      </div>
+    </div>
+    <p>父元素背景没有包裹浮动元素，高度塌陷</p>
+
+    <h3>10.2 使用clearfix解决高度塌陷</h3>
+    <div class="container clearfix" style="background-color: #e8f5e9;">
+      <div class="position-marker">clearfix容器</div>
+      <div class="item float-left" style="width: 100px; height: 100px;">
+        浮动元素
+      </div>
+      <div class="item float-left" style="width: 100px; height: 100px;">
+        浮动元素
+      </div>
+    </div>
+    <p>使用clearfix后，父元素正确包裹了浮动元素</p>
+
+    <h3>10.3 浮动元素的margin重叠问题</h3>
+    <div class="container clearfix">
+      <div class="position-marker">容器</div>
+      <div class="item float-left" style="width: 100px; height: 100px; margin-right: 20px;">
+        浮动元素1
+      </div>
+      <div class="item float-left" style="width: 100px; height: 100px; margin-left: 30px;">
+        浮动元素2
+      </div>
+    </div>
+    <p>两个浮动元素之间的实际间距是30px（取较大的margin-left），而不是20+30=50px</p>
+  </div>
+</body>
+
+</html>

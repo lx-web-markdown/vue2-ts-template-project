@@ -181,6 +181,8 @@ export default Vue.extend({
   }
 
   .nav-card {
+    flex: 1 1 auto;
+
     display: flex;
     align-items: center;
     padding: 1.5rem;

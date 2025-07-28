@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Grid布局综合示例</title>
+  <style>
+    /* 基础样式 */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .example {
+      margin-bottom: 40px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .container {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #fff;
+    }
+
+    .item {
+      background-color: #e3f2fd;
+      padding: 10px;
+      border-radius: 3px;
+      text-align: center;
+    }
+
+    .nav-item,
+    .card,
+    .grid-item,
+    .gallery-item,
+    .button {
+      background-color: #bbdefb;
+    }
+
+    .header,
+    .footer,
+    .sidebar {
+      background-color: #90caf9;
+    }
+
+    .main-content {
+      background-color: #64b5f6;
+    }
+
+    .active {
+      background-color: #ffcc80;
+    }
+
+    /* 1. 基本网格布局 */
+    .basic-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    /* 2. 响应式网格 */
+    .responsive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    /* 3. 网格行列间距 */
+    .gap-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 20px;
+      grid-row-gap: 10px;
+    }
+
+    /* 4. 网格线定位 */
+    .line-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 100px);
+      gap: 10px;
+    }
+
+    .line-item-1 {
+      grid-column: 1 / 3;
+      grid-row: 1;
+    }
+
+    .line-item-2 {
+      grid-column: 3;
+      grid-row: 1 / 3;
+    }
+
+    .line-item-3 {
+      grid-column: 1;
+      grid-row: 2 / 4;
+    }
+
+    .line-item-4 {
+      grid-column: 2 / 4;
+      grid-row: 3;
+    }
+
+    /* 5. 网格区域命名 */
+    .area-grid {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      grid-template-rows: 80px 1fr 80px;
+      grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+      gap: 10px;
+      height: 300px;
+    }
+
+    .area-header {
+      grid-area: header;
+    }
+
+    .area-sidebar {
+      grid-area: sidebar;
+    }
+
+    .area-main {
+      grid-area: main;
+    }
+
+    .area-footer {
+      grid-area: footer;
+    }
+
+    /* 6. 隐式网格 */
+    .implicit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 100px;
+      gap: 10px;
+    }
+
+    /* 7. 网格对齐方式 */
+    .align-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 150px);
+      grid-template-rows: repeat(2, 100px);
+      gap: 10px;
+      height: 250px;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    /* 8. 网格项目对齐 */
+    .item-align-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 100px);
+      gap: 10px;
+    }
+
+    .item-align-1 {
+      align-self: start;
+      justify-self: start;
+    }
+
+    .item-align-2 {
+      align-self: center;
+      justify-self: center;
+    }
+
+    .item-align-3 {
+      align-self: end;
+      justify-self: end;
+    }
+
+    /* 9. 圣杯布局 */
+    .holy-grail-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr 200px;
+      grid-template-rows: 80px 1fr 80px;
+      grid-template-areas:
+        "header header header"
+        "nav main aside"
+        "footer footer footer";
+      gap: 10px;
+      height: 400px;
+    }
+
+    .hg-header {
+      grid-area: header;
+    }
+
+    .hg-nav {
+      grid-area: nav;
+    }
+
+    .hg-main {
+      grid-area: main;
+    }
+
+    .hg-aside {
+      grid-area: aside;
+    }
+
+    .hg-footer {
+      grid-area: footer;
+    }
+
+    /* 10. 瀑布流布局 */
+    .masonry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 50px;
+      gap: 10px;
+    }
+
+    .masonry-item-1 {
+      grid-row: span 2;
+    }
+
+    .masonry-item-2 {
+      grid-row: span 3;
+    }
+
+    .masonry-item-3 {
+      grid-row: span 1;
+    }
+
+    .masonry-item-4 {
+      grid-row: span 2;
+    }
+
+    .masonry-item-5 {
+      grid-row: span 1;
+    }
+
+    .masonry-item-6 {
+      grid-row: span 3;
+    }
+
+    /* 11. 重叠网格项目 */
+    .overlap-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 100px);
+      gap: 10px;
+    }
+
+    .overlap-item-1 {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+      z-index: 1;
+    }
+
+    .overlap-item-2 {
+      grid-column: 2 / 4;
+      grid-row: 2 / 4;
+      background-color: rgba(255, 152, 0, 0.7);
+    }
+
+    /* 12. 动态调整网格 */
+    .dynamic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .dynamic-item {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .dynamic-item:hover {
+      background-color: #ffcc80;
+    }
+
+    .dynamic-item.active {
+      grid-column: span 2;
+      background-color: #ffcc80;
+    }
+
+    /* 13. 嵌套网格 */
+    .nested-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .nested-item {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    /* 14. 全屏布局 */
+    .fullscreen-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr auto;
+      height: 300px;
+    }
+
+    .fs-header {
+      padding: 20px;
+    }
+
+    .fs-content {
+      padding: 20px;
+      overflow: auto;
+    }
+
+    .fs-footer {
+      padding: 20px;
+    }
+
+    /* 15. 复杂杂志布局 */
+    .magazine-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5, 100px);
+      gap: 10px;
+    }
+
+    .magazine-header {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+
+    .magazine-featured {
+      grid-column: 1 / 3;
+      grid-row: 2 / 4;
+    }
+
+    .magazine-sidebar {
+      grid-column: 4;
+      grid-row: 2 / 5;
+    }
+
+    .magazine-main {
+      grid-column: 1 / 4;
+      grid-row: 4 / 6;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>CSS Grid布局综合示例</h1>
+
+  <!-- 1. 基本网格布局 -->
+  <div class="example">
+    <h2>1. 基本网格布局</h2>
+    <p>3列等宽网格布局</p>
+    <div class="container basic-grid">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+  </div>
+
+  <!-- 2. 响应式网格 -->
+  <div class="example">
+    <h2>2. 响应式网格</h2>
+    <p>根据容器宽度自动调整列数，每列最小200px</p>
+    <div class="container responsive-grid">
+      <div class="item">项目1</div>
+      <div class="item">项目2</div>
+      <div class="item">项目3</div>
+      <div class="item">项目4</div>
+      <div class="item">项目5</div>
+      <div class="item">项目6</div>
+    </div>
+  </div>
+
+  <!-- 3. 网格行列间距 -->
+  <div class="example">
+    <h2>3. 网格行列间距</h2>
+    <p>单独设置行列间距</p>
+    <div class="container gap-grid">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+  </div>
+
+  <!-- 4. 网格线定位 -->
+  <div class="example">
+    <h2>4. 网格线定位</h2>
+    <p>使用网格线精确控制项目位置</p>
+    <div class="container line-grid">
+      <div class="item line-item-1">1 (跨1-3列)</div>
+      <div class="item line-item-2">2 (跨1-3行)</div>
+      <div class="item line-item-3">3 (跨2-4行)</div>
+      <div class="item line-item-4">4 (跨2-4列)</div>
+    </div>
+  </div>
+
+  <!-- 5. 网格区域命名 -->
+  <div class="example">
+    <h2>5. 网格区域命名</h2>
+    <p>使用命名的网格区域布局</p>
+    <div class="container area-grid">
+      <div class="item area-header">页头</div>
+      <div class="item area-sidebar">侧边栏</div>
+      <div class="item area-main">主内容区</div>
+      <div class="item area-footer">页脚</div>
+    </div>
+  </div>
+
+  <!-- 6. 隐式网格 -->
+  <div class="example">
+    <h2>6. 隐式网格</h2>
+    <p>自动创建的行高为100px的隐式网格</p>
+    <div class="container implicit-grid">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+      <div class="item">7</div>
+      <div class="item">8</div>
+    </div>
+  </div>
+
+  <!-- 7. 网格对齐方式 -->
+  <div class="example">
+    <h2>7. 网格对齐方式</h2>
+    <p>网格容器内的整体对齐方式</p>
+    <div class="container align-grid">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+  </div>
+
+  <!-- 8. 网格项目对齐 -->
+  <div class="example">
+    <h2>8. 网格项目对齐</h2>
+    <p>单独控制每个项目的对齐方式</p>
+    <div class="container item-align-grid">
+      <div class="item item-align-1">左上</div>
+      <div class="item item-align-2">居中</div>
+      <div class="item item-align-3">右下</div>
+      <div class="item">默认</div>
+      <div class="item">默认</div>
+      <div class="item">默认</div>
+    </div>
+  </div>
+
+  <!-- 9. 圣杯布局 -->
+  <div class="example">
+    <h2>9. 圣杯布局</h2>
+    <p>经典的页头、导航、主内容、侧边栏、页脚布局</p>
+    <div class="container holy-grail-grid">
+      <div class="item hg-header">页头</div>
+      <div class="item hg-nav">导航</div>
+      <div class="item hg-main">主内容</div>
+      <div class="item hg-aside">侧边栏</div>
+      <div class="item hg-footer">页脚</div>
+    </div>
+  </div>
+
+  <!-- 10. 瀑布流布局 -->
+  <div class="example">
+    <h2>10. 瀑布流布局</h2>
+    <p>不同高度的项目形成瀑布流效果</p>
+    <div class="container masonry-grid">
+      <div class="item masonry-item-1">1 (2行)</div>
+      <div class="item masonry-item-2">2 (3行)</div>
+      <div class="item masonry-item-3">3 (1行)</div>
+      <div class="item masonry-item-4">4 (2行)</div>
+      <div class="item masonry-item-5">5 (1行)</div>
+      <div class="item masonry-item-6">6 (3行)</div>
+    </div>
+  </div>
+
+  <!-- 11. 重叠网格项目 -->
+  <div class="example">
+    <h2>11. 重叠网格项目</h2>
+    <p>使用z-index控制项目重叠顺序</p>
+    <div class="container overlap-grid">
+      <div class="item overlap-item-1">底层项目</div>
+      <div class="item overlap-item-2">上层项目</div>
+    </div>
+  </div>
+
+  <!-- 12. 动态调整网格 -->
+  <div class="example">
+    <h2>12. 动态调整网格</h2>
+    <p>点击任意项目查看扩展效果</p>
+    <div class="container dynamic-grid">
+      <div class="item dynamic-item">项目1</div>
+      <div class="item dynamic-item">项目2</div>
+      <div class="item dynamic-item">项目3</div>
+      <div class="item dynamic-item">项目4</div>
+      <div class="item dynamic-item">项目5</div>
+      <div class="item dynamic-item">项目6</div>
+    </div>
+  </div>
+
+  <!-- 13. 嵌套网格 -->
+  <div class="example">
+    <h2>13. 嵌套网格</h2>
+    <p>网格项目内部也是网格</p>
+    <div class="container nested-grid">
+      <div class="item nested-item">
+        <div class="item">子项目1</div>
+        <div class="item">子项目2</div>
+        <div class="item">子项目3</div>
+        <div class="item">子项目4</div>
+      </div>
+      <div class="item nested-item">
+        <div class="item">子项目A</div>
+        <div class="item">子项目B</div>
+        <div class="item">子项目C</div>
+        <div class="item">子项目D</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. 全屏布局 -->
+  <div class="example">
+    <h2>14. 全屏布局</h2>
+    <p>适合全屏应用的基本布局</p>
+    <div class="container fullscreen-grid">
+      <div class="item fs-header">页头</div>
+      <div class="item fs-content">可滚动内容区</div>
+      <div class="item fs-footer">页脚</div>
+    </div>
+  </div>
+
+  <!-- 15. 复杂杂志布局 -->
+  <div class="example">
+    <h2>15. 复杂杂志布局</h2>
+    <p>类似杂志或新闻网站的复杂布局</p>
+    <div class="container magazine-grid">
+      <div class="item magazine-header">页头</div>
+      <div class="item magazine-featured">特色内容</div>
+      <div class="item">常规内容1</div>
+      <div class="item">常规内容2</div>
+      <div class="item magazine-sidebar">侧边栏</div>
+      <div class="item magazine-main">主内容区</div>
+    </div>
+  </div>
+
+  <script>
+    // 动态调整网格的交互效果
+    document.querySelectorAll('.dynamic-item').forEach(item => {
+      item.addEventListener('click', function () {
+        document.querySelectorAll('.dynamic-item').forEach(i => {
+          i.classList.remove('active');
+        });
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+
+</html>

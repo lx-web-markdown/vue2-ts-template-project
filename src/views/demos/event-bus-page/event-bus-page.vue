@@ -15,12 +15,20 @@
       <p v-else>暂无消息</p>
     </div>
     <div class="tips">
-      <h4>核心代码说明：</h4>
+      <h3>核心代码说明：</h3>
       <ul>
         <li>event-bus.ts：<code>export default new Vue()</code> 导出事件总线对象</li>
         <li>发送事件：<code>eventBus.$emit('eventName', data)</code></li>
         <li>接收事件：<code>eventBus.$on('eventName', callback)</code></li>
         <li>组件销毁时记得 <code>eventBus.$off('eventName', callback)</code> 解绑</li>
+      </ul>
+    </div>
+
+    <div class="tips" style="margin-top: 30px">
+      <h3>原理说明</h3>
+      <ul>
+        <li>vm.$on()：监听当前实例上的自定义事件。</li>
+        <li>vm.$emit()：触发当前实例上的事件。附加参数都会传给监听器回调。</li>
       </ul>
     </div>
   </div>

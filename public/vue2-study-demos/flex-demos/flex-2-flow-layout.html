@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .item {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border-radius: 5px;
+      /* 可以设置固定宽度或flex-basis */
+
+      /* 弹性基准值200px，可伸缩（宽度最小200，可以撑开，宽度超过200px） */
+      /* flex: 1 1 200px; */
+
+      /* 弹性基准值 auto，根据内部撑开，可伸缩 */
+      /* flex: 1 1 auto; */
+
+      /* 拆分 */
+
+      /**
+       * 定义项目的放大比例
+       * 当容器有剩余空间时，项目将按比例分配剩余空间
+       * 值为1表示该项目可以与其他flex项目一起平分剩余空间
+       * 如果设置为0，则即使有剩余空间也不放大
+       */
+      flex-grow: 1;
+
+      /* 
+       * 定义项目的缩小比例
+       * 当容器空间不足时，项目将按比例缩小
+       * 值为1表示该项目可以与其他flex项目一起按比例缩小
+       * 如果设置为0，则即使空间不足也不缩小
+       */
+      flex-shrink: 1;
+
+      /*
+       * 定义项目在分配多余空间之前的初始大小
+       * 25%表示项目的基础宽度为容器宽度的25%
+       * 也可以使用固定值如200px
+       * 这是flex项目的理想或默认尺寸
+       */
+      flex-basis: auto;
+    }
+
+    .item {
+      /* 小屏幕下单列布局 */
+      /* flex: 1 1 100%; */
+    }
+
+    @media (min-width: 600px) {
+      .item {
+        /* 中等屏幕两列 */
+        /* flex: 1 1 50%; */
+      }
+    }
+
+    @media (min-width: 900px) {
+      .item {
+        /* 大屏幕四列 */
+        /* flex: 1 1 25%; */
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="item">项目1啊水电费克</div>
+    <div class="item">项目2啊水电费克啊水电费克</div>
+    <div class="item">项目3啊水电费克啊水电费克啊水电费克</div>
+    <div class="item">项目4啊水电费克啊水电费克啊水电费克啊水电费克</div>
+    <div class="item">项目5啊水电费克啊水电费克啊水电费克</div>
+    <div class="item">项目6啊水电费克啊水电费克</div>
+    <div class="item">项目7啊水电费克</div>
+    <div class="item">项目8</div>
+  </div>
+
+</body>
+
+</html>

@@ -138,7 +138,8 @@ methods: {
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+// mapGetters
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'VuexPage',
