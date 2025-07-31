@@ -5,11 +5,14 @@ import store from './store'
 import myI18n from '@/i18n'
 // 通用样式
 import '@/assets/css/common.scss'
-// 导入 mock 文件
-import '@/server/mock/mock'
 //
 import '@/plugins/element-ui'
 import '@/utils/vue-config-setting'
+
+// 仅在开发环境引入 Mock
+if (process.env.NODE_ENV === 'development') {
+  import('@/server/mock/index')
+}
 
 // 暗黑
 import DarkModeMixin from './mixins/darkMode'

@@ -96,6 +96,12 @@ export default Vue.extend({
           icon: '🦌',
           title: 'VueX 示例',
           desc: 'VueX使用'
+        },
+        {
+          to: '/mock-demo',
+          icon: '🐟',
+          title: 'Mock.js 示例',
+          desc: 'Mock + Axios使用'
         }
       ]
     }

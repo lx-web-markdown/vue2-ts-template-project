@@ -22,5 +22,9 @@ export default [
   {
     path: '/vuex-demo',
     component: () => import('@/views/demos/vuex-page/vuex-page.vue')
+  },
+  {
+    path: '/mock-demo',
+    component: () => import('@/views/demos/mock-usage-page/user-page.vue')
   }
 ]
