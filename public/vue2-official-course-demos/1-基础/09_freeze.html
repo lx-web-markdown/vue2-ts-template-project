@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Object.freeze 与 Vue 响应式</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f7f8fa;
+      margin: 0;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      padding: 32px 40px 28px 40px;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .desc {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+      padding: 10px;
+      background-color: #deeffa;
+      border-radius: 8px;
+      border: #1890ff 1px solid;
+    }
+
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 0px 20px;
+      border-radius: 8px;
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 1rem;
+      overflow-x: auto;
+      line-height: 1.7;
+    }
+
+    .show-example {
+      text-align: center;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #1890ff;
+      border-radius: 8px;
+    }
+
+    .show-text {
+      text-align: center;
+      color: #1890ff;
+      font-size: 20px;
+      line-height: 1.7;
+    }
+
+    .btn {
+      display: block;
+      margin: 0 auto;
+      margin-top: 18px;
+      margin-bottom: 18px;
+      padding: 8px 22px;
+      background: #1890ff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #40a9ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-freeze" class="container">
+    <h1>Object.freeze 与 Vue 响应式</h1>
+    <div class="desc">
+      <ul>
+        <li><code>Object.freeze(obj)</code> 可以冻结一个对象，使其属性不可变。</li>
+        <li>Vue 实例的 <code>data</code> 如果是被冻结的对象，响应式系统将无法追踪其变化。</li>
+        <li>此时，视图不会随着数据的修改而更新。</li>
+      </ul>
+    </div>
+    <section class="code-block" aria-label="代码示例">
+      <pre><code v-pre>var obj = { foo: 'bar' }
+
+Object.freeze(obj)
+
+new Vue({
+  el: '#app-freeze',
+  data: obj
+})</code></pre>
+    </section>
+    <div class="show-example">
+      <p class="show-text">{{ foo }}</p>
+      <button class="btn" @click="foo = 'baz'">尝试修改 foo</button>
+    </div>
+    <div class="desc" style="background-color:#fffbe6;border-color:#ffe58f;margin-top:16px;">
+      <strong>说明：</strong>点击按钮后，<code>foo</code> 的值不会发生变化，视图也不会更新，因为 <code>obj</code> 已被冻结，Vue 无法追踪其变化。
+      <br>参考：<a href="https://v2.cn.vuejs.org/v2/guide/instance.html#%E6%95%B0%E6%8D%AE%E4%B8%8E%E6%96%B9%E6%B3%95"
+        target="_blank">Vue 官方文档 - 数据与方法</a>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  <script>
+    var obj = { foo: 'bar' }
+
+    Object.freeze(obj)
+
+    new Vue({
+      el: '#app-freeze',
+      data: obj
+    })
+  </script>
+</body>
+
+</html>

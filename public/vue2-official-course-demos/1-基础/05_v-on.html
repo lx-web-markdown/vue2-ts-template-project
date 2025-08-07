@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>v-on 事件绑定指令</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f7f8fa;
+      margin: 0;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      padding: 32px 40px 28px 40px;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .desc {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+      padding: 10px;
+      background-color: #deeffa;
+      border-radius: 8px;
+      border: #1890ff 1px solid;
+    }
+
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 0px 20px;
+      border-radius: 8px;
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 1rem;
+      overflow-x: auto;
+      line-height: 1.7;
+    }
+
+    .show-example {
+      text-align: center;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #1890ff;
+      border-radius: 8px;
+    }
+
+    .show-text {
+      text-align: center;
+      color: #1890ff;
+      font-size: 20px;
+      line-height: 1.7;
+    }
+
+    .btn {
+      display: block;
+      margin: 0 auto;
+      margin-top: 18px;
+      margin-bottom: 18px;
+      padding: 8px 22px;
+      background: #1890ff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #40a9ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-5" class="container">
+    <h1>v-on 事件绑定指令</h1>
+    <div class="desc">
+      <ul>
+        <li>v-on 指令用于监听 DOM 事件，并在触发时执行表达式或方法。</li>
+        <li>常用语法：<code>v-on:事件名="方法名"</code>，也可简写为 <code>@事件名="方法名"</code>。</li>
+        <li>点击下方按钮会调用 <code>reverseMessage</code> 方法，实现消息的反转。</li>
+      </ul>
+    </div>
+    <section class="code-block" aria-label="代码示例">
+      <pre><code v-pre>&lt;div id="app-5"&gt;
+  &lt;p&gt;{{ message }}&lt;/p&gt;
+  &lt;button v-on:click="reverseMessage"&gt;反转消息&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+var app5 = new Vue({
+  el: '#app-5',
+  data: {
+    message: 'Hello Vue.js!'
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('');
+    }
+  }
+})
+&lt;/script&gt;
+</code></pre>
+    </section>
+    <div class="show-example">
+      <p class="show-text">{{ message }}</p>
+      <button class="btn" v-on:click="reverseMessage">反转消息</button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  <script type="text/javascript">
+    var app5 = new Vue({
+      el: "#app-5",
+      data: {
+        message: "Hello Vue.js!",
+      },
+      methods: {
+        reverseMessage: function () {
+          this.message = this.message.split("").reverse().join("");
+        },
+      },
+    });
+  </script>
+</body>
+
+</html>

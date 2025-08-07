@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>v-for 列表渲染指令</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f7f8fa;
+      margin: 0;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      padding: 32px 40px 28px 40px;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .desc {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+      padding: 10px;
+      background-color: #deeffa;
+      border-radius: 8px;
+      border: #1890ff 1px solid;
+    }
+
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 0px 20px;
+      border-radius: 8px;
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 1rem;
+      overflow-x: auto;
+      line-height: 1.7;
+    }
+
+    .show-example {
+      text-align: center;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #1890ff;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .todo-list {
+      text-align: left;
+      max-width: 300px;
+      margin: 0 auto;
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .todo-list ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .todo-list li {
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 16px;
+    }
+
+    .console-tip {
+      background: linear-gradient(90deg, #e6f7ff 0%, #f0f5ff 100%);
+      color: #1890ff;
+      margin-top: 15px;
+      border-radius: 10px;
+      padding: 14px 22px;
+      font-size: 16px;
+      font-weight: 500;
+      box-shadow: 0 4px 18px rgba(24, 144, 255, 0.10);
+      border: 1.5px solid #91d5ff;
+    }
+
+    .console-code {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 14px;
+      margin: 8px 0;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-4" class="container">
+    <h1>v-for 列表渲染指令</h1>
+    <div class="desc">
+      <ul>
+        <li>v-for 指令可以基于一个数组来渲染一个列表。</li>
+        <li>v-for 指令需要使用 <code>item in items</code> 形式的特殊语法。</li>
+        <li>在控制台输入 <span class="console-code">app4.todos.push({ text: '新项目' })</span>，你会发现列表最后添加了一个新项目。</li>
+      </ul>
+    </div>
+    <section class="code-block" aria-label="代码示例">
+      <pre><code v-pre>&lt;div id="app-4"&gt;
+  &lt;ol&gt;
+    &lt;li v-for="todo in todos"&gt;{{ todo.text }}&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+var app4 = new Vue({
+  el: '#app-4',
+  data: {
+    todos: [
+      { text: '学习 JavaScript' },
+      { text: '学习 Vue' },
+      { text: '整个牛项目' }
+    ]
+  }
+})
+&lt;/script&gt;
+</code></pre>
+    </section>
+    <div class="show-example">
+      <h3>待办事项列表：</h3>
+      <div class="todo-list">
+        <ol>
+          <li v-for="todo in todos">{{ todo.text }}</li>
+        </ol>
+      </div>
+      <div class="console-tip">
+        💡 提示：打开浏览器控制台，输入 <span class="console-code">app4.todos.push({ text: '新项目' })</span> 来添加新项目！
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  <script type="text/javascript">
+    var app4 = new Vue({
+      el: "#app-4",
+      data: {
+        todos: [
+          { text: "学习 JavaScript" },
+          { text: "学习 Vue" },
+          { text: "整个牛项目" },
+        ],
+      },
+    });
+  </script>
+</body>
+
+</html>

@@ -44,43 +44,43 @@
   "vue2-official-course-demos": [
     {
       "fileName": "01_hello.html",
-      "filePath": "vue2-official-course-demos/01_hello.html"
+      "filePath": "vue2-official-course-demos/1-基础/01_hello.html"
     },
     {
       "fileName": "02_v-bind.html",
-      "filePath": "vue2-official-course-demos/02_v-bind.html"
+      "filePath": "vue2-official-course-demos/1-基础/02_v-bind.html"
     },
     {
       "fileName": "03_v-if.html",
-      "filePath": "vue2-official-course-demos/03_v-if.html"
+      "filePath": "vue2-official-course-demos/1-基础/03_v-if.html"
     },
     {
       "fileName": "04_v-for.html",
-      "filePath": "vue2-official-course-demos/04_v-for.html"
+      "filePath": "vue2-official-course-demos/1-基础/04_v-for.html"
     },
     {
       "fileName": "05_v-on.html",
-      "filePath": "vue2-official-course-demos/05_v-on.html"
+      "filePath": "vue2-official-course-demos/1-基础/05_v-on.html"
     },
     {
       "fileName": "06_v-model.html",
-      "filePath": "vue2-official-course-demos/06_v-model.html"
+      "filePath": "vue2-official-course-demos/1-基础/06_v-model.html"
     },
     {
-      "fileName": "07_数据与方法.html",
-      "filePath": "vue2-official-course-demos/07_数据与方法.html"
+      "fileName": "07_组件化应用构建.html",
+      "filePath": "vue2-official-course-demos/1-基础/07_组件化应用构建.html"
     },
     {
-      "fileName": "08_freeze.html",
-      "filePath": "vue2-official-course-demos/08_freeze.html"
+      "fileName": "08_数据与方法.html",
+      "filePath": "vue2-official-course-demos/1-基础/08_数据与方法.html"
     },
     {
-      "fileName": "09_Vue实例property.html",
-      "filePath": "vue2-official-course-demos/09_Vue实例property.html"
+      "fileName": "09_freeze.html",
+      "filePath": "vue2-official-course-demos/1-基础/09_freeze.html"
     },
     {
       "fileName": "10_生命周期.html",
-      "filePath": "vue2-official-course-demos/10_生命周期.html"
+      "filePath": "vue2-official-course-demos/1-基础/10_生命周期.html"
     },
     {
       "fileName": "11_v-once.html",

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>v-model 双向绑定演示</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f7f8fa;
+      margin: 0;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      padding: 32px 40px 28px 40px;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .desc {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+      padding: 10px;
+      background-color: #deeffa;
+      border-radius: 8px;
+      border: #1890ff 1px solid;
+    }
+
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 0px 20px;
+      border-radius: 8px;
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 1rem;
+      overflow-x: auto;
+      line-height: 1.7;
+    }
+
+    .show-example {
+      text-align: center;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #1890ff;
+      border-radius: 8px;
+      padding: 24px 0;
+    }
+
+    .show-text {
+      text-align: center;
+      color: #1890ff;
+      font-size: 20px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .input {
+      padding: 8px 16px;
+      font-size: 16px;
+      border: 1px solid #1890ff;
+      border-radius: 6px;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    .input:focus {
+      border: 1.5px solid #40a9ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-6" class="container">
+    <h1>v-model 双向数据绑定</h1>
+    <div class="desc">
+      <ul>
+        <li>v-model 指令用于在表单控件元素和 Vue 实例的数据之间实现双向数据绑定。</li>
+        <li>输入框的内容会实时同步到 <code>message</code>，反之亦然。</li>
+        <li>你可以在下方输入框中输入内容，体验 v-model 的效果。</li>
+      </ul>
+    </div>
+    <section class="code-block" aria-label="代码示例">
+      <pre><code v-pre>&lt;div id="app-6"&gt;
+  &lt;p&gt;{{ message }}&lt;/p&gt;
+  &lt;input v-model="message" /&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+var app6 = new Vue({
+  el: '#app-6',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+&lt;/script&gt;
+</code></pre>
+    </section>
+    <div class="show-example">
+      <p class="show-text">{{ message }}</p>
+      <input class="input" v-model="message" />
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  <script type="text/javascript">
+    var app6 = new Vue({
+      el: "#app-6",
+      data: {
+        message: "Hello Vue!",
+      },
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>数据与方法演示</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f7f8fa;
+      margin: 0;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      padding: 32px 40px 28px 40px;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .desc {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+      padding: 10px;
+      background-color: #deeffa;
+      border-radius: 8px;
+      border: #1890ff 1px solid;
+    }
+
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 0px 20px;
+      border-radius: 8px;
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 1rem;
+      overflow-x: auto;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .show-example {
+      text-align: center;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #1890ff;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .show-text {
+      text-align: center;
+      color: #1890ff;
+      font-size: 20px;
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 5px;
+      padding: 8px 22px;
+      background: #1890ff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #40a9ff;
+    }
+
+    .btn-secondary {
+      background: #52c41a;
+    }
+
+    .btn-secondary:hover {
+      background: #73d13d;
+    }
+
+    .btn-danger {
+      background: #ff4d4f;
+    }
+
+    .btn-danger:hover {
+      background: #ff7875;
+    }
+
+    .data-display {
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-family: monospace;
+      font-size: 16px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .section h3 {
+      color: #1890ff;
+      margin-top: 0;
+      border-bottom: 2px solid #1890ff;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-7" class="container">
+    <h1>Vue 实例 - 数据与方法</h1>
+
+    <div class="desc">
+      <ul>
+        <li>当一个 Vue 实例被创建时，它将 <code>data</code> 对象中的所有 property 加入到 Vue 的<strong>响应式系统</strong>中。</li>
+        <li>当这些 property 的值发生改变时，视图将会产生"响应"，即匹配更新为新的值。</li>
+        <li>Vue 实例还暴露了一些有用的实例 property 与方法，它们都有前缀 <code>$</code>。</li>
+      </ul>
+    </div>
+
+    <!-- 基础数据绑定演示 -->
+    <div class="section">
+      <h3>1. 基础数据绑定</h3>
+      <div class="code-block">
+        <pre><code v-pre>// 数据对象
+var myData = { a: 1 }
+
+// Vue 实例
+var vm = new Vue({
+  el: '#app-7',
+  data: myData
+})
+
+// 数据是响应式的
+vm.a === myData.a // => true
+vm.a = 2
+myData.a // => 2</code></pre>
+      </div>
+
+      <div class="show-example">
+        <div class="show-text">当前 a 的值: {{ a }}</div>
+        <button class="btn" @click="a = a + 1">a + 1</button>
+        <button class="btn btn-secondary" @click="a = a - 1">a - 1</button>
+        <button class="btn btn-danger" @click="a = 1">重置为 1</button>
+      </div>
+    </div>
+
+    <!-- 响应式系统演示 -->
+    <div class="section">
+      <h3>2. 响应式系统演示</h3>
+      <div class="code-block">
+        <pre><code v-pre>// 通过原始数据对象修改
+myData.a = 100
+
+// 通过 Vue 实例修改
+vm.a = 200
+
+// 两种方式都会触发视图更新</code></pre>
+      </div>
+
+      <div class="show-example">
+        <div class="data-display">
+          <div>原始数据对象 myData.a: {{ originalDataA }}</div>
+          <div>Vue 实例 vm.a: {{ a }}</div>
+        </div>
+        <button class="btn" @click="updateOriginalData">通过原始数据修改</button>
+        <button class="btn btn-secondary" @click="updateVueInstance">通过 Vue 实例修改</button>
+      </div>
+    </div>
+
+    <!-- 实例属性演示 -->
+    <div class="section">
+      <h3>3. Vue 实例属性 ($ 前缀)</h3>
+      <div class="code-block">
+        <pre><code v-pre>// 实例属性都有 $ 前缀
+vm.$data === myData // => true
+vm.$el === document.getElementById('app-7') // => true
+
+// 实例方法
+vm.$watch('a', function (newValue, oldValue) {
+  console.log('a 从', oldValue, '变为', newValue)
+})</code></pre>
+      </div>
+
+      <div class="show-example">
+        <div class="data-display">
+          <div>$data 对象: {{ JSON.stringify($data) }}</div>
+          <div>$el 元素: {{ $el ? $el.tagName : 'null' }}</div>
+          <div>监听器数量: {{ watcherCount }}</div>
+        </div>
+        <button class="btn" @click="addWatcher">添加监听器</button>
+        <button class="btn btn-secondary" @click="changeValue">改变值触发监听</button>
+      </div>
+    </div>
+
+    <!-- 非响应式属性演示 -->
+    <div class="section">
+      <h3>4. 非响应式属性</h3>
+      <div class="code-block">
+        <pre><code v-pre>// 只有创建时存在的 property 才是响应式的
+vm.b = 'hi' // 这个改动不会触发视图更新
+
+// 如果知道晚些时候需要某个 property，应该预先设置初始值
+data: {
+  newTodoText: '',
+  visitCount: 0,
+  hideCompletedTodos: false,
+  todos: [],
+  error: null
+}</code></pre>
+      </div>
+
+      <div class="show-example">
+        <div class="data-display">
+          <div>响应式属性 a: {{ a }}</div>
+          <div>非响应式属性 b: {{ b || '未定义' }}</div>
+        </div>
+        <button class="btn" @click="addNonReactiveProperty">添加非响应式属性</button>
+        <button class="btn btn-secondary" @click="changeNonReactiveProperty">修改非响应式属性</button>
+        <button class="btn btn-danger" @click="forceUpdate">强制更新视图</button>
+      </div>
+    </div>
+
+    <!-- Object.freeze 演示 -->
+    <div class="section">
+      <h3>5. Object.freeze() 演示</h3>
+      <div class="code-block">
+        <pre><code v-pre>var obj = { foo: 'bar' }
+Object.freeze(obj)
+
+new Vue({
+  el: '#app',
+  data: obj
+})
+
+// 这里的 foo 不会更新！</code></pre>
+      </div>
+
+      <div class="show-example">
+        <div class="data-display">
+          <div>冻结对象属性: {{ frozenData.foo }}</div>
+          <div>冻结状态: {{ isFrozen ? '已冻结' : '未冻结' }}</div>
+        </div>
+        <button class="btn" @click="tryUpdateFrozenData">尝试更新冻结数据</button>
+        <button class="btn btn-secondary" @click="freezeData">冻结数据</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  <script type="text/javascript">
+    // 原始数据对象
+    var myData = { a: 1 };
+
+    var vm = new Vue({
+      el: "#app-7",
+      data: {
+        a: 1,
+        originalDataA: 1,
+        watcherCount: 0,
+        frozenData: { foo: 'bar' },
+        isFrozen: false
+      },
+      methods: {
+        updateOriginalData() {
+          myData.a = Math.floor(Math.random() * 1000);
+          this.originalDataA = myData.a;
+        },
+        updateVueInstance() {
+          this.a = Math.floor(Math.random() * 1000);
+        },
+        addWatcher() {
+          this.$watch('a', (newValue, oldValue) => {
+            console.log('a 从', oldValue, '变为', newValue);
+            this.watcherCount++;
+          });
+          this.watcherCount++;
+        },
+        changeValue() {
+          this.a = Math.floor(Math.random() * 1000);
+        },
+        addNonReactiveProperty() {
+          this.b = '这是非响应式属性';
+        },
+        changeNonReactiveProperty() {
+          this.b = '修改后的非响应式属性';
+        },
+        forceUpdate() {
+          this.$forceUpdate();
+        },
+        tryUpdateFrozenData() {
+          try {
+            this.frozenData.foo = '尝试修改：' + Date();
+            console.log('修改成功');
+          } catch (e) {
+            console.log('修改失败:', e.message);
+          }
+        },
+        freezeData() {
+          Object.freeze(this.frozenData);
+          this.isFrozen = true;
+        }
+      },
+      mounted() {
+        // 初始化时设置原始数据
+        this.originalDataA = this.a;
+      }
+    });
+
+    // 改值方式一：通过原始数据对象
+    // myData.a = "12345";
+
+    // 改值方式二：通过 Vue 实例
+    // vm.a = "56789";
+  </script>
+</body>
+
+</html>

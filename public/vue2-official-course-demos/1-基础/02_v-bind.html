@@ -33,7 +33,7 @@
       line-height: 1.7;
       padding: 10px;
 
-      background-color: #c1e5fc;
+      background-color: #deeffa;
       border-radius: 8px;
       border: #1890ff 1px solid;
     }
@@ -41,7 +41,7 @@
     .code-block {
       background: #2c3e50;
       color: #ecf0f1;
-      padding: 0px 10px;
+      padding: 0px 20px;
       border-radius: 8px;
       font-family: 'Fira Mono', 'Courier New', monospace;
       font-size: 1rem;
@@ -88,13 +88,15 @@
     </h1>
 
     <div class="desc">
-      这里我们遇到了一点新东西。你看到的 v-bind attribute 被称为指令。指令带有前缀 v-，以表示它们是 Vue 提供的特殊 attribute。可能你已经猜到了，它们会在渲染的 DOM
-      上应用特殊的响应式行为。在这里，该指令的意思是：“将这个元素节点的 title attribute 和 Vue 实例的 message property 保持一致”。<br><br>
-      如果你再次打开浏览器的 JavaScript 控制台，输入 app2.message = '新消息'，就会再一次看到这个绑定了 title attribute 的 HTML 已经进行了更新。
+      <ul>
+        <li>这里我们遇到了一点新东西。你看到的 v-bind attribute 被称为指令。指令带有前缀 v-，以表示它们是 Vue 提供的特殊 attribute。</li>
+        <li>可能你已经猜到了，它们会在渲染的 DOM 上应用特殊的响应式行为。在这里，该指令的意思是：“将这个元素节点的 title attribute 和 Vue 实例的 message property 保持一致”。</li>
+        <li>如果你再次打开浏览器的 JavaScript 控制台，输入 app2.message = '新消息'，就会再一次看到这个绑定了 title attribute 的 HTML 已经进行了更新。</li>
+      </ul>
     </div>
 
     <section class="code-block" aria-label="代码示例">
-      <pre><code>
+      <pre><code v-pre>
 &lt;div id=&quot;app-2&quot;&gt;
   &lt;span v-bind:title=&quot;message&quot;&gt;
     鼠标悬停几秒钟查看此处动态绑定的提示信息！

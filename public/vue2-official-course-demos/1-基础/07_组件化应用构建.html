@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue 组件化应用构建</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f7f8fa;
+      margin: 0;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      padding: 32px 40px 28px 40px;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .desc {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+      padding: 10px;
+      background-color: #deeffa;
+      border-radius: 8px;
+      border: #1890ff 1px solid;
+    }
+
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 0px 20px;
+      border-radius: 8px;
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 1rem;
+      overflow-x: auto;
+      line-height: 1.7;
+    }
+
+    .show-example {
+      text-align: center;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #1890ff;
+      border-radius: 8px;
+    }
+
+    .show-text {
+      text-align: center;
+      color: #1890ff;
+      font-size: 20px;
+      line-height: 1.7;
+    }
+
+    .btn {
+      display: block;
+      margin: 0 auto;
+      margin-top: 18px;
+      margin-bottom: 18px;
+      padding: 8px 22px;
+      background: #1890ff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #40a9ff;
+    }
+
+    .section-title {
+      color: #1890ff;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      font-size: 1.3em;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-component" class="container">
+    <h1>Vue 组件化应用构建</h1>
+    <div class="desc">
+      <ul>
+        <li>组件系统是 Vue 的核心特性之一，允许我们用小型、独立、可复用的组件来构建大型应用。</li>
+        <li>每个组件本质上是一个拥有预定义选项的 Vue 实例。</li>
+        <li>组件之间通过 <code>props</code> 进行数据传递，实现父子解耦。</li>
+        <li>本页演示了如何用 Vue 组件化思想构建一个简单的待办事项列表。</li>
+      </ul>
+    </div>
+    <div class="section-title">代码示例</div>
+    <section class="code-block" aria-label="代码示例">
+      <pre><code v-pre>&lt;div id="app-component"&gt;
+  &lt;h2&gt;我的待办事项&lt;/h2&gt;
+  &lt;ol&gt;
+    &lt;todo-item
+      v-for="item in groceryList"
+      v-bind:todo="item"
+      v-bind:key="item.id"
+    &gt;&lt;/todo-item&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// 注册一个全局组件
+Vue.component('todo-item', {
+  props: ['todo'],
+  template: '&lt;li&gt;{{ todo.text }}&lt;/li&gt;'
+})
+
+var app = new Vue({
+  el: '#app-component',
+  data: {
+    groceryList: [
+      { id: 0, text: '蔬菜' },
+      { id: 1, text: '奶酪' },
+      { id: 2, text: '随便其它什么人吃的东西' }
+    ]
+  }
+})
+&lt;/script&gt;
+</code></pre>
+    </section>
+    <div class="section-title">实际效果</div>
+    <div class="show-example">
+      <h2>我的待办事项</h2>
+      <div>
+        <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id" />
+      </div>
+    </div>
+    <div class="section-title">详细讲解</div>
+    <div class="desc">
+      <ul>
+        <li>我们通过 <code>Vue.component</code> 注册了一个名为 <code>todo-item</code> 的全局组件。</li>
+        <li>该组件通过 <code>props</code> 接收父组件传递的数据，实现了父子解耦。</li>
+        <li>在父组件模板中，使用 <code>v-for</code> 遍历 <code>groceryList</code>，为每个待办项渲染一个 <code>todo-item</code> 组件实例。</li>
+        <li>每个组件实例都通过 <code>v-bind:todo="item"</code> 传递不同的数据。</li>
+        <li>通过 <code>key</code> 保证每个组件的唯一性，有助于 Vue 内部高效渲染。</li>
+        <li>组件化让代码更易维护、复用和扩展，是构建大型应用的基础。</li>
+      </ul>
+      <div style="color: darkblue;">在控制台输入：<code>app.groceryList.push({ id: 3, text: '新项目' })</code>，你会发现列表最后添加了一个数据。</div>
+      <p>更多内容详见 <a href="https://v2.cn.vuejs.org/v2/guide/index.html#组件化应用构建" target="_blank">Vue2 官方文档：组件化应用构建</a>。</p>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  <script type="text/javascript">
+    // 注册全局组件
+    Vue.component('todo-item', {
+      props: ['todo'],
+      template: '<div>{{ todo.text }}</div>'
+    });
+    var app = new Vue({
+      el: "#app-component",
+      data: {
+        groceryList: [
+          { id: 0, text: '蔬菜' },
+          { id: 1, text: '奶酪' },
+          { id: 2, text: '随便其它什么人吃的东西' }
+        ]
+      }
+    });
+  </script>
+</body>
+
+</html>

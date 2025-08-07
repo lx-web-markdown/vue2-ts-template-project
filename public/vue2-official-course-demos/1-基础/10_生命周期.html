@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue 实例生命周期钩子演示</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f7f8fa;
+      margin: 0;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      padding: 32px 40px 28px 40px;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .desc {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+      padding: 10px;
+      background-color: #deeffa;
+      border-radius: 8px;
+      border: #1890ff 1px solid;
+    }
+
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 0px 20px;
+      border-radius: 8px;
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 1rem;
+      overflow-x: auto;
+      line-height: 1.7;
+    }
+
+    .show-example {
+      text-align: center;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #1890ff;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .show-text {
+      text-align: center;
+      color: #1890ff;
+      font-size: 20px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .show-img {
+      width: 100%;
+      height: auto;
+      background-color: rebeccapurple;
+    }
+
+    .show-img img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      display: block;
+    }
+
+    .btn {
+      display: block;
+      margin: 0 auto;
+      margin-top: 18px;
+      margin-bottom: 18px;
+      padding: 8px 22px;
+      background: #1890ff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #40a9ff;
+    }
+
+    .lifecycle-log {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .log-entry {
+      margin-bottom: 5px;
+      padding: 2px 0;
+    }
+
+    .log-entry.beforeCreate {
+      color: #e74c3c;
+    }
+
+    .log-entry.created {
+      color: #27ae60;
+    }
+
+    .log-entry.beforeMount {
+      color: #f39c12;
+    }
+
+    .log-entry.mounted {
+      color: #8e44ad;
+    }
+
+    .log-entry.beforeUpdate {
+      color: #e67e22;
+    }
+
+    .log-entry.updated {
+      color: #16a085;
+    }
+
+    .log-entry.beforeDestroy {
+      color: #c0392b;
+    }
+
+    .log-entry.destroyed {
+      color: #7f8c8d;
+    }
+
+    .lifecycle-diagram {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .diagram-step {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 15px;
+      background: #1890ff;
+      color: white;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .arrow {
+      font-size: 20px;
+      color: #1890ff;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-10" class="container">
+    <h1>Vue 实例生命周期钩子</h1>
+    <div class="desc">
+      <ul>
+        <li>每个 Vue 实例在被创建时都要经过一系列的初始化过程</li>
+        <li>在这个过程中会运行一些叫做<strong>生命周期钩子</strong>的函数</li>
+        <li>这给了用户在不同阶段添加自己的代码的机会</li>
+        <li>生命周期钩子的 <code>this</code> 上下文指向调用它的 Vue 实例</li>
+      </ul>
+    </div>
+
+    <div class="lifecycle-diagram">
+      <h3>生命周期流程</h3>
+      <div>
+        <span class="diagram-step">beforeCreate</span>
+        <span class="arrow">→</span>
+        <span class="diagram-step">created</span>
+        <span class="arrow">→</span>
+        <span class="diagram-step">beforeMount</span>
+        <span class="arrow">→</span>
+        <span class="diagram-step">mounted</span>
+      </div>
+      <div style="margin-top: 10px;">
+        <span class="diagram-step">beforeUpdate</span>
+        <span class="arrow">→</span>
+        <span class="diagram-step">updated</span>
+        <span class="arrow">→</span>
+        <span class="diagram-step">beforeDestroy</span>
+        <span class="arrow">→</span>
+        <span class="diagram-step">destroyed</span>
+      </div>
+    </div>
+
+    <section class="code-block" aria-label="代码示例">
+      <pre><code v-pre>var vm = new Vue({
+  el: '#app-10',
+  data: {
+    message: "我是消息数据"
+  },
+  
+  // 在实例初始化之后，数据观测和事件配置之前被调用
+  beforeCreate() {
+    console.log("beforeCreate - 实例初始化之前");
+  },
+  
+  // 在实例创建完成后被立即调用
+  // 数据观测、属性和方法的运算、watch/event 事件回调已完成
+  created() {
+    console.log("created - 实例创建完成");
+  },
+  
+  // 在挂载开始之前被调用，相关的渲染函数首次被调用
+  beforeMount() {
+    console.log("beforeMount - 挂载开始之前");
+  },
+  
+  // el被创建的 vm.$el 替换，挂载成功
+  mounted() {
+    console.log("mounted - 挂载完成");
+  },
+  
+  // 数据更新前调用
+  beforeUpdate() {
+    console.log("beforeUpdate - 数据更新前");
+  },
+  
+  // 组件DOM已经更新，组件更新完毕
+  updated() {
+    console.log("updated - 组件更新完毕");
+  },
+  
+  // 实例销毁之前调用
+  beforeDestroy() {
+    console.log("beforeDestroy - 实例销毁前");
+  },
+  
+  // 实例销毁后调用
+  destroyed() {
+    console.log("destroyed - 实例已销毁");
+  }
+});</code></pre>
+    </section>
+
+    <div class="show-example">
+      <p class="show-text">当前消息: {{ message }}</p>
+      <button class="btn" @click="updateMessage">更新消息</button>
+      <button class="btn" @click="destroyInstance" style="background: #ff4d4f;">销毁实例</button>
+
+      <div class="lifecycle-log" id="lifecycleLog">
+        <div class="log-entry">生命周期钩子执行日志：</div>
+      </div>
+    </div>
+
+    <div class="show-img">
+      <img src="https://v2.cn.vuejs.org/images/lifecycle.png">
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  <script type="text/javascript">
+    // 日志函数
+    function addLog(message, className) {
+      const logContainer = document.getElementById('lifecycleLog');
+      const logEntry = document.createElement('div');
+      logEntry.className = 'log-entry ' + className;
+      logEntry.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+      logContainer.appendChild(logEntry);
+      logContainer.scrollTop = logContainer.scrollHeight;
+    }
+
+    // Vue实例
+    var vm = new Vue({
+      el: "#app-10",
+      data: {
+        message: "我是消息数据",
+      },
+
+      // 在实例初始化之后，数据观测（data observer）和 event/watcher 事件配置之前被调用
+      beforeCreate() {
+        console.log("beforeCreate - 实例初始化之前");
+        addLog("beforeCreate - 实例初始化之前", "beforeCreate");
+      },
+
+      // 在实例创建完成后被立即调用
+      // 在这一步，实例已完成以下的配置：数据观测（data observer），属性和方法的运算，watch/event 事件回调。
+      // 然而，挂载阶段还没开始，$el属性目前不可见。
+      created() {
+        console.log("created - 实例创建完成");
+        addLog("created - 实例创建完成", "created");
+      },
+
+      // 在挂载开始之前被调用，相关的渲染函数首次被调用。
+      beforeMount() {
+        console.log("beforeMount - 挂载开始之前");
+        addLog("beforeMount - 挂载开始之前", "beforeMount");
+      },
+
+      // el被创建的 vm.$el 替换，挂载成功
+      mounted() {
+        console.log("mounted - 挂载完成");
+        addLog("mounted - 挂载完成", "mounted");
+      },
+
+      // 数据更新前调用
+      beforeUpdate() {
+        console.log("beforeUpdate - 数据更新前");
+        addLog("beforeUpdate - 数据更新前", "beforeUpdate");
+      },
+
+      // 组件DOM已经更新，组件更新完毕
+      updated() {
+        console.log("updated - 组件更新完毕");
+        addLog("updated - 组件更新完毕", "updated");
+      },
+
+      // 实例销毁之前调用
+      beforeDestroy() {
+        console.log("beforeDestroy - 实例销毁前");
+        addLog("beforeDestroy - 实例销毁前", "beforeDestroy");
+      },
+
+      // 实例销毁后调用
+      destroyed() {
+        console.log("destroyed - 实例已销毁");
+        addLog("destroyed - 实例已销毁", "destroyed");
+      },
+
+      methods: {
+        updateMessage() {
+          this.message = "消息已更新 - " + new Date().toLocaleTimeString();
+        },
+
+        destroyInstance() {
+          this.$destroy();
+          addLog("实例已被手动销毁", "destroyed");
+        }
+      }
+    });
+
+    // 3秒后自动更新消息，演示更新钩子
+    setTimeout(() => {
+      if (vm && !vm._isDestroyed) {
+        vm.message = "3秒后自动更新的消息";
+      }
+    }, 3000);
+  </script>
+</body>
+
+</html>
