@@ -51,6 +51,10 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/layouts/AppHome.vue'),
     children: [...routerHome]
   },
+  {
+    path: '/about',
+    component: () => import('@/views/modules/about/about-index.vue')
+  },
   // NotFound
   {
     path: '*',
